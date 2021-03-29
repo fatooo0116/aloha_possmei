@@ -14,7 +14,7 @@ $objPHPExcel = $objReader->load($inputFileName);
 die(‘載入檔案發生錯誤：”‘.pathinfo($inputFileName,PATHINFO_BASENAME).'”: '.$e->getMessage());
 }
 // 確定要讀取的sheet，什麼是sheet，看excel的右下角，真的不懂去百度吧
-$sheet = $objPHPExcel->getSheet(1);
+$sheet = $objPHPExcel->getSheet(5);
 $highestRow = $sheet->getHighestRow();
 $highestColumn = $sheet->getHighestColumn();
 // 獲取一行的資料
@@ -25,7 +25,7 @@ echo '$highestRow => '.$highestRow;
 
 
 
-$table_name = 'ca_customer_address';
+$table_name = 'ca_comp_dep';
 $dbhost = 'localhost:3306';  // mysql伺服器主機地址
 $dbuser = 'root';            // mysql使用者名稱
 $dbpass = 'root';          // mysql使用者名稱密碼
@@ -51,9 +51,9 @@ for ($row = 2; $row <= $highestRow; $row++  ){
      var_dump($rowData);
 
      $sql = "INSERT INTO ".$table_name.
-     " (customer_id, addr_id, address_text, zip,contact,contact_title,contact_phone,contact_fax) ".
+     " (dep_id, dep_name, dep_eng_name,other) ".
      "VALUES ".
-     "('".$rowData[0][0]."','".addslashes($rowData[0][1])."','".addslashes($rowData[0][2])."','".htmlspecialchars($rowData[0][3])."','".$rowData[0][4]."','".$rowData[0][5]."','".$rowData[0][6]."','".$rowData[0][7]."')";
+     "('".$rowData[0][0]."','".addslashes($rowData[0][1])."','".addslashes($rowData[0][2])."','".htmlspecialchars($rowData[0][3])."')";
 
 
      echo $sql;

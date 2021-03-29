@@ -52,12 +52,11 @@ function product_meta_db() {
   $table_name = $wpdb->prefix . 'comp_staff';
   $sql = "CREATE TABLE $table_name (
     id int(9) NOT NULL AUTO_INCREMENT, 
-    staff_id  int(15) NOT NULL,
-    dep_id  int(15) NOT NULL,
+    staff_id  varchar(25) NOT NULL,
+    dep_id  varchar(25) NOT NULL,
     staff_name  varchar(200) NOT NULL,
     staff_eng_name  varchar(200) NOT NULL,
-    sex varchar(20) NOT NULL,
-    other  varchar(200) NOT NULL,
+    xgroup varchar(30) NOT NULL,   
     UNIQUE KEY id (id)
   ) $charset_collate;";
   dbDelta( $sql );
@@ -68,7 +67,7 @@ function product_meta_db() {
   $table_name = $wpdb->prefix . 'comp_dep';
   $sql = "CREATE TABLE $table_name (
     id int(9) NOT NULL AUTO_INCREMENT, 
-    dep_id  int(15) NOT NULL,
+    dep_id  varchar(50) NOT NULL,
     dep_name  varchar(200) NOT NULL,
     dep_eng_name  varchar(200) NOT NULL,
     other  varchar(200) NOT NULL,
@@ -83,8 +82,8 @@ function product_meta_db() {
   $table_name = $wpdb->prefix . 'customer_address';
   $sql = "CREATE TABLE $table_name (
     id int(9) NOT NULL AUTO_INCREMENT, 
-    customer_id  int(15) NOT NULL,
-    addr_id  int(15) NOT NULL,
+    customer_id  varchar(50) NOT NULL,
+    addr_id  varchar(50) NOT NULL,
     address_text varchar(200) NOT NULL,
     zip varchar(50) NOT NULL,
     contact varchar(100) NOT NULL,
