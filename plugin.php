@@ -13,3 +13,7 @@ require 'woo/product_meta.php';
 
 register_activation_hook( __FILE__, 'product_meta_db' );
 require "db/db.php";
+
+
+/* API */
+require 'news-api/api.php';
