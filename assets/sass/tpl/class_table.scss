@@ -1,0 +1,436 @@
+
+
+
+.rwd_table{
+    overflow-y: scroll;
+    #table-no-resize {
+            min-width: 980px;;
+    }
+}
+
+
+
+
+#table-no-resize {
+    // background:#333;
+    overflow: hidden; 
+    background:#d3dfee;
+}
+
+
+#table-no-resize tr:nth-of-type(2n){
+    background: #a7bfde;
+}
+#table-no-resize tr:nth-of-type(2n+1){
+    background:#d3dfee;
+}
+
+
+
+#table-no-resize th,
+#table-no-resize td {
+    margin: 0.5em 1em;
+    border-color:#fff;
+}
+.other_helper{
+    text-align: center;
+}
+
+#table-no-resize {
+    min-width: 100%;
+}
+
+
+#table-no-resize th {
+   // display: none ;;
+   text-align: center;
+   background:#0b438c;
+   color:#fff;
+}
+
+
+#table-no-resize td {
+    display: block;
+    &.class_time,
+    &.action,
+    &.consult{
+        text-align: center;
+        a{
+            &:hover{
+                color:#fff ! important;
+                background-color:#0b438c ! important;
+            }
+ 
+            background-color: #fff;
+             color: #0b438c;
+            
+             border-style: solid;
+             border-width: 1px 1px 1px 1px;
+             border-color: #0b438c;;
+             border-radius: 50px 50px 50px 50px;
+             padding: 8px 15px 8px 15px;
+             font-size: 15px;  
+        }
+    }
+}
+
+
+#table-no-resize td:before{
+    content:attr(data-th) " : ";
+    font-weight:bold;
+    width:6.5em;
+    display:inline-block;
+}
+
+#table-no-resize th.myclass_name{
+    text-align: left;
+    a{
+        color:#fff;
+    }
+}
+
+#table-no-resize th, 
+#table-no-resize td {    
+    display: flex;
+    margin:0;
+}
+
+#table-no-resize td {
+    text-align:left;
+    a{
+        color:#333;
+    }
+}
+　  
+
+#table-no-resize th, #table-no-resize td:before {
+    color:#333;
+    font-weight:bold;        
+}
+    
+
+#pager{
+    display:flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    .current{
+        background:#d3dfee;
+    }
+    > span ,a{
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 0 5px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        color: #333;
+    }
+}
+
+
+
+
+@media (min-width: 480px) {
+    #table-no-resize td:before {
+        display:none;        
+    }
+
+
+    
+        #table-no-resize th, 
+        #table-no-resize td{
+                display: table-cell;
+                padding: 0.25em 0.5em;
+        }    
+    
+     
+        #table-no-resize th:first-child,
+        #table-no-resize td:first-child {
+            padding-left: 0;
+        }
+        #table-no-resize th:last-child,
+        #table-no-resize td:last-child {
+            padding-right: 0;
+        }
+        #table-no-resize th,
+        #table-no-resize td {
+            padding: 10px 20px !important;
+            font-size: 16px;
+            line-height: 1.6em;
+            align-items: center;
+            vertical-align: middle;
+        }
+}
+
+h3.table_center{
+    text-align: center;
+    font-size:30px;
+    margin:10px 0;
+}
+
+
+@media (max-width: 480px) {
+
+    #table-no-resize tr:nth-of-type(2n){
+        background: #d3dfee;
+    }
+
+    .rwd_table #table-no-resize{
+        min-width: auto;
+        border: 0px;
+    }
+
+    #table-no-resize{ background:none; }
+    #table-no-resize tr.thead th {
+        display: none ;;
+    }
+    #table-no-resize tr.class_item{
+        margin-bottom: 30px;
+        display: block;
+        padding: 15px 10px;
+        border-radius: 10px;
+        border:0px;
+
+        th.myclass_name {
+            text-align: left;
+            padding: 6px 20px;
+            border-radius: 8px;
+            text-align: center;
+            justify-content: center;
+            border:0px;
+            a{
+                color: #fff;
+                font-size: 18px;
+                display: block;
+                line-height: 1em;
+                padding: 5px 15px;
+                display: block;
+                width: 100%;
+            }
+        }
+
+        td{
+            border:0px;
+
+            &.class_time{
+                margin-top:10px;
+                border-bottom: 1px solid rgba(255 ,255 ,255 ,50%);
+            }
+
+            &.class_date{
+                margin-bottom: 15px;;
+                border-bottom: 1px solid rgba(255, 255, 255 ,50%);
+            }
+
+            &.class_time{
+                text-align: left;
+            }
+
+            &.action:before{
+                display:none;
+            }
+            &.action{
+                a{
+                    width:80%;
+                    text-align: center;
+                    padding: 5px 15px 6px 15px;
+                    margin:auto;
+                }
+            }
+            &.consult:before{
+                display:none;
+            }
+            &.consult{
+                a{
+                    width:80%;
+                    text-align: center;
+                    padding: 5px 15px 6px 15px;
+                    margin:auto;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+/*   課程介紹 */
+
+.rwd_table{
+    overflow-y: scroll;
+}
+table.class_intro{
+    min-width: 980px;
+    border-color:#fff;
+
+    td{
+        padding: 10px 10px;
+    }
+
+    thead th{
+        background:#f37106;
+        border-color: #fff;
+        text-align: center;
+        color:#fff;
+    }
+    tbody tr:nth-child(even),
+    tbody tr:nth-child(even) td{
+        background:#fbd4b4;
+        vertical-align: middle;
+        border-color: #fff;
+    }
+    tbody tr:nth-child(odd),
+    tbody tr:nth-child(odd) td{
+        background:#fde9d9;
+        border-color: #fff;
+    }
+    tbody tr td{
+        vertical-align: middle;
+    }
+    tbody  tr td:first-child{
+        background:#f37106;
+        color:#fff;
+    }
+    .column-2{ text-align: center; }
+    .column-3{
+        width: 30%;
+    }
+    .column-4{
+        width: 20%;
+    }
+    .column-5{
+        display:flex;
+        align-items: center;
+        img{
+            max-width: 50px;;
+            height:auto;
+            display: block;
+        }
+        img:first-child{
+            margin-right:10px;
+        }
+    }
+    .column-6{
+        text-align: center;
+        a{
+           &:hover{
+               color:#fff ! important;
+               background-color:#f37106 ! important;
+           }
+
+           background-color: #fff;
+            color: #f37106;
+           
+            border-style: solid;
+            border-width: 1px 1px 1px 1px;
+            border-color: #f37106;;
+            border-radius: 50px 50px 50px 50px;
+            padding: 8px 15px 8px 15px;
+            font-size: 15px;            
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    table.class_intro{       
+            min-width: auto;
+            border: 0px;
+        
+            thead{
+                display:none;
+            }
+            tbody{
+                padding: 0 10px;
+                position: relative;
+                display: block;
+
+                tr{
+                    padding: 15px 10px;
+                    border-radius: 10px;
+                    background: #fde9d9 ! important;
+
+                    display: block;
+                    margin-bottom: 30px;;
+                    td{
+                        background: #fde9d9 ! important;
+                        display: block;
+                        width: 100% ! important ;
+                        &.column-1{
+                            background: #f37106 ! important;
+                            text-align: left;
+                            padding: 6px 20px;
+                            border-radius: 8px;
+                            text-align: center;
+                            justify-content: center;
+                            border: 0px;
+                            font-size:18px;
+                            font-weight:bold;    
+                            border: 0px;;                    
+                        }
+                        &.column-2,
+                        &.column-3,
+                        &.column-4{
+                            display:flex;
+                            align-items: baseline;
+                            flex-wrap: wrap;
+                            border: 0px;;
+                        }
+                        &.column-2{
+                            padding: 15px 15px 5px;
+                        }
+                        &.column-3{
+                            padding: 0px 15px 5px;
+                        }
+                        &.column-4{
+                            padding: 0px 15px 5px;
+                        }
+                        &.column-5,
+                        &.column-6{
+                            border: 0px ! important;;
+                        }
+                        &.column-2:before{
+                            content:'程度:';
+                            position: relative;
+                            margin-right: 15px;
+                            display: flex;
+                            font-weight: bold;
+                        }
+                        &.column-3:before{
+                            content:'課程內容:';
+                            position: relative;
+                            margin-right: 15px;
+                            width:100%;
+                            display: flex;
+                            font-weight: bold;
+                        }
+                        &.column-4:before{
+                            content:'使用教材:';
+                            width:100%;
+                            position: relative;
+                            margin-right: 15px;
+                            display: flex;
+                            font-weight: bold;
+                        }
+                        &.column-5{
+                            img{
+                                max-width: 100px;
+                            }
+                            display: flex;
+                            text-align: center;
+                            justify-content: center;
+                        }
+                        &.column-6{
+                            a{
+                                width:100%;
+                                display: flex;
+                                justify-content: center;
+                            }
+                        }
+                    }
+                }
+            }
+    }
+}

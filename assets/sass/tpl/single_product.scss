@@ -1,0 +1,149 @@
+.single-product{
+    .ast-container{
+
+        #primary{
+            border-right: 0px;
+            width: 100%;;
+            padding-right:0;
+
+            #woo_single_product{
+                display:flex;
+                > #single_product_menu{
+                    width:30%;
+
+                    .left_menu{
+                        width:300px;                      
+                            
+                            
+                            ul{
+                                background:#F8F8F8;
+                                padding:0;
+                                margin:0;
+                                color:#3A3A3A;
+                               > li{
+                                    position: relative;
+                                    list-style-type: none;
+                                    &.menu-item-has-children > a{
+                                        position: relative;
+                                    }
+                                    &.current-menu-item.menu-item-has-children > a:after{
+                                        display: none;
+                                    }
+                                    &.menu-item-has-children > a:after{
+                                        right:15px;
+                                        top:50%;
+                                        margin-top:-2px;
+                                        content:'';
+                                        position: absolute;;
+                                        width: 0; 
+                                        height: 0; 
+                                        border-left: 5px solid transparent;
+                                        border-right: 5px solid transparent;                                
+                                        border-top: 5px solid #3A3A3A;
+                                    }
+            
+                                    &.current-menu-parent > a{
+                                        position: relative;
+                                        color:#27AC39;
+                                        font-weight: bold;
+                                        &:after{
+                                            transform: rotate(-180deg);
+                                            right:15px;
+                                            top:50%;
+                                            margin-top:-2px;
+                                            content:'';
+                                            position: absolute;;
+                                            width: 0; 
+                                            height: 0; 
+                                            border-left: 5px solid transparent;
+                                            border-right: 5px solid transparent;                                
+                                            border-top: 5px solid #27AC39;
+                                        }
+                                    }
+            
+                                    ul.sub-menu{ 
+                                        display: none;                           
+                                        li{
+                                            &:after{
+                                                display:none;
+                                            }
+                                            a{
+                                                color:#7A7A7A;
+                                                padding-left: 40px;
+                                            }
+                                            
+                                            border-bottom: 0px;;
+                                        }
+                                    }
+                                    &.current-menu-parent ul.sub-menu,
+                                    &.current-menu-item ul.sub-menu{ 
+                                        display:block;
+                                    }
+            
+            
+            
+                                    &:last-child:after{
+                                        display:none;
+                                    }
+                                    &:after{
+                                        content:'';
+                                        position: absolute;
+                                        bottom:0;
+                                        left:0;
+                                        width:100%;
+                                        height:1px;
+                                        background: #EAEAEA;
+                                    }
+                                    position: relative;
+                                    list-style-type: none;;
+                                    &.current-menu-item{
+                                        > a{
+                                            color:#fff ! important;
+                                            background:#27AC39;
+                                        }
+                                    }
+                                    a{
+                                        height:53px;
+                                        display: block;
+                                        width:100%;
+                                        box-sizing: border-box;
+                                        padding:15px 20px;
+                                        color:#3A3A3A;
+                                    }
+                                }
+                            }                
+                        
+                    }
+
+
+                }
+                > .ast-article-single{
+                    width:70%;
+
+                    .cart{
+                        max-width: 210px;;
+                        button{
+                            margin-top: 30px;
+                            width: 100%;
+                            display: flex;
+                            padding: 8px 5px;
+                            justify-content: center;
+                            align-items: center;
+                            &:before{
+                                background: url(./img/buy_w.svg);
+                                content: '';
+                                width: 22px;
+                                height: 22px;
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #secondary{
+            display: none;;
+        }
+    }
+}

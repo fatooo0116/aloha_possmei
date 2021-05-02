@@ -1,0 +1,89 @@
+
+.site-below-footer-wrap[data-section="section-below-footer-builder"]{
+    display:none ! important;
+}
+
+.footer_wrap{
+    background:#212121;
+    color:#fff;
+    .inner{
+        padding:50px 15px 10px;
+        color:#fff;
+        max-width: 1400px;
+        margin:auto;
+        .top{
+            margin-bottom: 20px;
+            .xinner{
+                display: flex;
+                justify-content: space-between;
+                .box1.logo{
+                    width: 30%;;
+                }
+                .box1{
+                    width: 15%;;
+                    h3{
+                        color: #fff;
+                        margin-bottom: 13px;
+                        line-height: 1em;
+                        font-size: 18px;
+                    }
+                    .textwidget{
+                        margin-bottom: 10px;
+                    }
+                    a{
+                        color: #d4d4d4;
+                        font-size: 15px;
+                        line-height: 2em;
+                        display: block;
+                    }
+                }
+            }
+        }
+        .bottom{
+            padding:15px 0;
+            border-top:1px solid #505050;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;;
+            letter-spacing: 1px;
+            p{
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .footer_wrap .inner .top .xinner{
+        flex-wrap: wrap;
+        .box1,
+        .box1.logo{
+            width:50%;
+            padding: 0 15px;
+            box-sizing: border-box;
+            margin-bottom: 30px;;
+        }
+    }
+    .footer_wrap .inner .bottom{
+        display: flex;
+        flex-wrap: wrap;
+        .copy{ width:100%;}
+        .sns{ width:100%;}
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .footer_wrap .inner .top .xinner{
+        flex-wrap: wrap;       
+        .box1.logo{
+            width:100%;
+            margin-bottom: 30px;;
+            text-align: center;
+        }
+        .box1{
+            width:100%;
+            margin-bottom: 30px;;
+            text-align: center;
+        }
+    }
+}

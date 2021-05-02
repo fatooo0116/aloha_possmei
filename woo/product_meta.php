@@ -4,38 +4,66 @@
 add_action('woocommerce_product_options_general_product_data', 'woocommerce_product_custom_fields');
 function woocommerce_product_custom_fields()
 {
+
+    global $wpdb, $post;
+    $table_name =  $wpdb->prefix . 'product';;
+    $sql = "SELECT * FROM $table_name where woo_id=".$post->ID;
+    $results = $wpdb->get_results($sql,ARRAY_A);
+
+    //  echo $sql;
+    //  print_r($results);
+
     global $woocommerce, $post;
     echo '<div class="product_custom_field">';
     // Custom Product Text Field
+
     woocommerce_wp_text_input(
         array(
-            'id' => '_custom_product_text_field',
-            'placeholder' => 'Custom Product Text Field',
-            'label' => __('Custom Product Text Field', 'woocommerce'),
-            'desc_tip' => 'true'
+            'id' => 'product_id',           
+            'label' => __('產品編號', 'woocommerce'),
+            'desc_tip' => 'true',
+            'value' => $results[0]['product_id']
         )
     );
-    //Custom Product Number Field
+
     woocommerce_wp_text_input(
         array(
-            'id' => '_custom_product_number_field',
-            'placeholder' => 'Custom Product Number Field',
-            'label' => __('Custom Product Number Field', 'woocommerce'),
-            'type' => 'number',
-            'custom_attributes' => array(
-                'step' => 'any',
-                'min' => '0'
-            )
+            'id' => 'product_eng_name',           
+            'label' => __('產品英文名', 'woocommerce'),
+            'desc_tip' => 'true',
+            'value' => $results[0]['product_eng_name']
         )
     );
-    //Custom Product  Textarea
-    woocommerce_wp_textarea_input(
+
+    woocommerce_wp_text_input(
         array(
-            'id' => '_custom_product_textarea',
-            'placeholder' => 'Custom Product Textarea',
-            'label' => __('Custom Product Textarea', 'woocommerce')
+            'id' => 'cuft',           
+            'label' => __('CUFT', 'woocommerce'),
+            'desc_tip' => 'true',
+            'value' => $results[0]['cuft']
         )
     );
+
+    woocommerce_wp_text_input(
+        array(
+            'id' => 'net_weight',           
+            'label' => __('淨重', 'woocommerce'),
+            'desc_tip' => 'true',
+            'value' => $results[0]['net_weight']
+        )
+    );
+
+    woocommerce_wp_text_input(
+        array(
+            'id' => 'gross_weight',           
+            'label' => __('總重', 'woocommerce'),
+            'desc_tip' => 'true',
+            'value' => $results[0]['gross_weight']
+        )
+    );
+
+
+
     echo '</div>';
 }
 

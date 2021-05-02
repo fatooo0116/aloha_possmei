@@ -1,0 +1,254 @@
+.archive.tax-product_cat .ast-container{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: none ! important;
+    #primary{
+        margin:0;
+    }
+    .woocommerce-breadcrumb{
+      //  display:none;
+    }
+ 
+    #main{
+        padding:0 px;
+        max-width: 1200px;;
+        margin:auto;
+        color:#fff;
+        .woocommerce-breadcrumb{
+            color:#fff;
+            a{
+                color:#fff;
+            }
+        }
+    }
+}
+
+
+
+
+
+.aloha_header_product_bk{
+    height:145px;
+    width: 100%;;
+    margin-bottom: 50px;;
+    background-image:url(./img/header.jpg);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    position: relative;
+    &:before{
+        content:'';
+        position: absolute;
+        width:100%;
+        height:100%;
+        top:0;
+        left:0;
+        background: #27AC39;
+        opacity: 0.75;
+        z-index: 0;
+    }
+
+    .inner_box{
+        position: relative; 
+        max-width: 1200px;;
+        margin:auto;
+        padding:0 15px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        height: 100%;
+        h1{
+            z-index: 3;;
+            font-size: 28px;
+            line-height: 40px;;
+            color:#fff;
+            position: relative;  
+            margin-bottom: 15px;; 
+            font-weight: bold;
+        }
+        #primary{
+            font-size: 14px;;
+            z-index: 3;;
+            color:#fff;
+            position: relative;   
+        }   
+    }
+}
+
+
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+    display: none;
+    margin: 0;
+}
+.quantity input.qty {
+    appearance: textfield;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+
+
+#single_shop_pos{
+    display: flex;
+   
+    
+    #main_poss_body{
+        display: flex;
+        justify-content: space-between;
+        margin:auto auto 100px;;
+        max-width: 1200px;;
+        padding:0 15px;
+        width: 100%;
+        .left_menu{
+            width:300px;                      
+                
+                
+                ul{
+                    background:#F8F8F8;
+                    padding:0;
+                    margin:0;
+                    color:#3A3A3A;
+                   > li{
+                        position: relative;
+                        list-style-type: none;
+                        &.menu-item-has-children > a{
+                            position: relative;
+                        }
+                        &.current-menu-item.menu-item-has-children > a:after{
+                            display: none;
+                        }
+                        &.menu-item-has-children > a:after{
+                            right:15px;
+                            top:50%;
+                            margin-top:-2px;
+                            content:'';
+                            position: absolute;;
+                            width: 0; 
+                            height: 0; 
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;                                
+                            border-top: 5px solid #3A3A3A;
+                        }
+
+                        &.current-menu-parent > a{
+                            position: relative;
+                            color:#27AC39;
+                            font-weight: bold;
+                            &:after{
+                                transform: rotate(-180deg);
+                                right:15px;
+                                top:50%;
+                                margin-top:-2px;
+                                content:'';
+                                position: absolute;;
+                                width: 0; 
+                                height: 0; 
+                                border-left: 5px solid transparent;
+                                border-right: 5px solid transparent;                                
+                                border-top: 5px solid #27AC39;
+                            }
+                        }
+
+                        ul.sub-menu{ 
+                            display: none;                           
+                            li{
+                                &:after{
+                                    display:none;
+                                }
+                                a{
+                                    color:#7A7A7A;
+                                    padding-left: 40px;
+                                }
+                                
+                                border-bottom: 0px;;
+                            }
+                        }
+                        &.current-menu-parent ul.sub-menu,
+                        &.current-menu-item ul.sub-menu{ 
+                            display:block;
+                        }
+
+
+
+                        &:last-child:after{
+                            display:none;
+                        }
+                        &:after{
+                            content:'';
+                            position: absolute;
+                            bottom:0;
+                            left:0;
+                            width:100%;
+                            height:1px;
+                            background: #EAEAEA;
+                        }
+                        position: relative;
+                        list-style-type: none;;
+                        &.current-menu-item{
+                            > a{
+                                color:#fff ! important;
+                                background:#27AC39;
+                            }
+                        }
+                        a{
+                            height:53px;
+                            display: block;
+                            width:100%;
+                            box-sizing: border-box;
+                            padding:15px 20px;
+                            color:#3A3A3A;
+                        }
+                    }
+                }                
+            
+        }
+
+        
+        /*  main product */
+        #main_product{
+            width: calc(100% - 345px);
+
+            ul.products{
+                display: flex;
+                flex-wrap: wrap;
+                //  justify-content: space-between;
+                &:before,
+                &:after{
+                    display:none;
+                }
+                li{              
+                    padding: 0 15px;
+                    display: block;                   
+                    
+                    margin: 0 0 30px;;
+                    width:33.333%;
+                        
+                    .inner{
+                        width: 248px;;
+                        border:1px solid #EEE;
+                    }
+
+               
+
+  
+                    .astra-shop-summary-wrap{
+                        padding:20px;
+                        .ast-loop-product__link{
+                            .woocommerce-loop-product__title{
+                                color: #3a3a3a;
+                                font-size:18px;
+                                line-height: 26px;;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}

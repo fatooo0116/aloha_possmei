@@ -32,6 +32,8 @@ function product_meta_db() {
     gross_weight varchar(50) NOT NULL,   
     weight_unit varchar(50) NOT NULL,  
     meant varchar(50) NOT NULL,     
+    meant varchar(50) NOT NULL,    
+    woo_id int(11) NOT NULL,  
     UNIQUE KEY id (id)
   ) $charset_collate;";
   dbDelta( $sql );
@@ -90,7 +92,8 @@ function product_meta_db() {
     invoice_cht varchar(120) NOT NULL,
     invoice_eng_long varchar(170) NOT NULL,
     invoice_eng_short varchar(120) NOT NULL,
-
+    trade_mark varchar(200) NOT NULL,
+    woo_id int(11) NOT NULL,  
     UNIQUE KEY id (id)
   ) $charset_collate;";
   dbDelta( $sql );
@@ -149,7 +152,7 @@ function product_meta_db() {
 
 
 
-  $table_name = $wpdb->prefix . 'aloha_customer_catgory';
+  $table_name = $wpdb->prefix . 'customer_type';
   $sql = "CREATE TABLE $table_name (
     id int(20) NOT NULL AUTO_INCREMENT, 
     customer_catgory_id  int(15) NOT NULL,

@@ -50,6 +50,19 @@ for ($row = 2; $row <= $highestRow; $row++  ){
 
      var_dump($rowData);
 
+    if(addslashes($rowData[0][7])=='是'){
+      $is_temp = '1';
+    }else{
+      $is_temp = '0';
+    }
+
+    if(addslashes($rowData[0][8])=='是'){
+      $is_global = '1';
+    }else{
+      $is_global = '0';
+    }
+
+
      $sql = "INSERT INTO ".$table_name.
      " ( customer_id,
          account_id,         
@@ -74,7 +87,9 @@ for ($row = 2; $row <= $highestRow; $row++  ){
          contact_email,
          invoice_cht,
          invoice_eng_long,
-         invoice_eng_short
+         invoice_eng_short,
+         trade_mark,
+         woo_id
          ) ".
      "VALUES ".
      "('".$rowData[0][0]."','".
@@ -84,8 +99,8 @@ for ($row = 2; $row <= $highestRow; $row++  ){
           addslashes($rowData[0][4])."','". /* addr_id */
           addslashes($rowData[0][5])."','". /* staff_id */
           addslashes($rowData[0][6])."','". /* dollar_mark, */
-          addslashes($rowData[0][7])."','".
-          addslashes($rowData[0][8])."','".          
+          addslashes($is_temp)."','".  /* is_temp */
+          addslashes($is_global)."','".  /* is_global */        
           addslashes($rowData[0][9])."','".  /* simple_name  */
 
           addslashes($rowData[0][10])."','".  /* sn  */
@@ -105,8 +120,10 @@ for ($row = 2; $row <= $highestRow; $row++  ){
           
           addslashes($rowData[0][28])."','".
           addslashes($rowData[0][30])."','".
-          addslashes($rowData[0][31]).              
-          "')";
+          addslashes($rowData[0][31])."',".
+          "'',".          
+          "0".    
+          ")";
 
 
      echo $sql;

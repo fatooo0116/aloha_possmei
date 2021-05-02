@@ -1,0 +1,24 @@
+.woocommerce form .woocommerce-billing-fields .jpschool_field{
+    margin-top:10px;
+}
+
+.aloha_radio{
+    display:flex;   
+    align-items: center;
+    flex-wrap: wrap;
+    label{
+        margin-right: 10px;
+        font-weight: 500 ! important;
+        display: flex ! important;
+        align-items: center;
+        input{
+            margin-right: 3px;
+        }
+        .small_width{
+            padding:5px 10px;
+            width:60px ! important;
+            margin-left:10px ! important;
+            margin-right:10px ! important;
+        }
+    }
+}

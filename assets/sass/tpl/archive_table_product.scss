@@ -1,0 +1,94 @@
+.start_table{
+    padding:0 15px;
+    
+    table{
+        border: 1px solid #27AC39;
+
+        thead{
+            color:#fff;
+            background:#27AC39;
+            th{
+                border:0px;
+                &.product-button{
+                    display: flex;
+                    justify-content: space-between;
+                    .quantity{
+                        width:45%;                        
+                        border:0px;
+                        text-align: center;
+                        justify-content: center;                    
+                    }
+                    .add_to_cart_button{
+                        width:45%;
+                    }
+                }
+            }
+        }
+
+        td,th{
+            border-top:1px solid #F5F5F5;
+            border-bottom:1px solid #F5F5F5;
+            border-left:0px;
+            border-right:0px;
+        }
+        tr:nth-child(even){
+            background:#F5F5F5;;
+        }
+
+        tbody{
+            tr{
+                th{
+                    width: 30%;;
+                    a{
+                        color:#3a3a3a;
+                        font-weight:normal;
+                        &:hover{
+                            color:#27AC39;
+                        }
+                    }
+                }
+                td {
+
+                    &.action{
+                        width:35%;
+                    }
+                    
+                    .product-button{
+                        display: flex;
+                        justify-content: space-between;
+                        .quantity{
+                            width:55%;
+                            .qty_button{
+                                height: 30px;
+                                font-size: 20px;
+                                border: 0px;
+                                width: 30px;
+                                justify-content: center;
+                                display: flex;
+                            }
+                            input.qty{
+                                min-height: auto;
+                                height:100%;
+                                padding:0;
+                            }
+                        }
+                        .add_to_cart_button{                            
+                                width: 35%;
+                                padding: 0;
+                                text-indent: -9999px;
+                                background-image:url(./img/buy.svg);
+                                background-repeat: no-repeat;
+                                background-position:center;
+                                  
+                                background-color: transparent;
+                                background-size: 25px;                      
+                        }
+                        a.wc-forward{
+                            display:none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

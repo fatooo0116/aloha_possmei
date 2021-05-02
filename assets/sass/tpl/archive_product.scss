@@ -1,0 +1,144 @@
+
+/*  search field */
+#product_search_form{
+    margin-bottom: 30px;;
+    height:40px;
+    position: relative;
+
+    button[type="submit"]{
+        position: absolute;
+        right: 0;
+        background-image: url(./img/Vector.svg);
+        background-position: center;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        text-indent: -99999px;
+        width: 30px ! important;
+        height: 30px;
+        padding: 0;
+        top: 50%;
+        margin-top: -15px;
+        right: 5px;
+        z-index: 5;
+    }
+}
+
+#single_shop_pos #main_poss_body #main_product {
+    ul.products{
+        li{
+            del .woocommerce-Price-amount{
+                font-size: 20px;
+                font-weight:normal;
+                color:#666;
+            }
+            .woocommerce-Price-amount{
+                font-style: normal;
+                color:#27AC39;
+                font-size: 24px;
+            }
+            a.add_to_cart_button{
+                width:100%;
+                text-align: center;
+            }
+            a.product_type_simple{
+                width:100%;
+                margin: 20px 0 0;
+                text-align: center;
+            }
+        }
+    } 
+}
+
+
+
+
+/*  ==================   prodcut_header    ==================  */
+
+#prodcut_header{
+    border-bottom: 1px solid #27AC39;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;;
+    align-items: center;
+    padding-bottom: 25px;;
+    margin:0 15px 30px;    
+    h1{
+        margin:0;
+        padding:0px 0 0px;;
+        font-size:28px;
+    }
+    .controller{
+        display: flex;
+        justify-content: space-between;;
+        align-items: center;
+
+        .cbtn{
+            outline: none;
+            background: #EEEEEE;
+            border-radius: 3px;
+            display: flex;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right:15px;
+            transform: scale(1);
+            border:1px solid transparent;
+
+            &:hover{
+                border:1px solid #27AC39;
+            }
+
+            svg path{
+                fill:#7A7A7A;
+            }
+            &:active{
+                transform: scale(0.91);
+            }
+        }
+        .cbtn.active{
+            background:#27AC39;
+            
+            svg path{
+                fill:#FFF;
+            }
+        }
+
+        p{
+            margin:0;
+        }
+        line-height: 1em;;
+    }
+}
+
+
+.quantity{
+    width:100%;
+    display: flex;
+    border:1px solid #EEE;
+    .qty_button{
+        height:35px;
+        font-size: 20px;;
+        border:0px;;
+        padding:0 15px;
+        background:#EEE;
+        color:#7A7A7A;
+        border-radius: 0px;;
+        &:hover{
+            background:#EEE;
+            color:#27AC39;
+        }
+    }
+    input.qty{
+        border:0px;
+        width: 100% ! important;
+        color:#7A7A7A;
+        border:0px;
+    }
+}
+
+.add_to_cart_button{
+    text-align: center;
+    width:100%
+}

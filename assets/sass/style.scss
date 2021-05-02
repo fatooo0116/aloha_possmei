@@ -1,0 +1,29 @@
+    @import "tpl/login";
+    
+    @import "tpl/class_table";
+    @import "tpl/checkout";
+    @import "tpl/myaccount";
+    
+    @import "tpl/single_shop_pos";
+
+    @import "tpl/archive_product";
+    @import "tpl/archive_table_product";
+
+    @import "tpl/single_product";
+
+    @import "tpl/cart";
+
+    @import "tpl/footer";
+
+    @media (min-width: 922px){
+        .woocommerce-account header  .ast-container,
+        .archive.tax-product_cat header  .ast-container{
+            max-width: 1240px ! important;
+            margin:auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        header .ast-container {
+            max-width: 1240px;
+        }
+    }
