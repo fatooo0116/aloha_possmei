@@ -36,7 +36,7 @@ add_action( 'rest_api_init', function () {
     'callback' => 'del_customers_addr_handler',
   ) );
 });
-function del_customers_addr_handler(){
+function del_customers_addr_handler($data){
 
   $pid = (isset($data['checked'])) ? $data['checked'] : 0; 
   
@@ -44,9 +44,9 @@ function del_customers_addr_handler(){
   $table_name =  $wpdb->prefix . 'customer_address';;
 
   // $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
-  foreach($pid as $in){
-    $result  = $wpdb->delete( $table_name, array( 'id' => $in) );
-  }
+  // foreach($pid as $in){
+    $result  = $wpdb->delete( $table_name, array( 'id' => $pid) );
+  // }
 
   return $result;
 }
@@ -60,17 +60,16 @@ add_action( 'rest_api_init', function () {
   ) );
 });
 
-function create_customers_addr_handler(){
+function create_customers_addr_handler($data){
   global $wpdb;
   $table_name =  $wpdb->prefix . 'customer_address';;
 
 
       
   $result = $wpdb->insert($table_name , array(
-    'customer_id' => (isset($data['customer_id'])) ? $data['customer_id'] : 0, /* 客戶編號 */
+    'customer_id' => (isset($data['customer_id'])) ? $data['customer_id'] : '', /* 客戶編號 */
     'addr_id' => (isset($data['addr_id'])) ? $data['addr_id'] : '', /* 帳款歸屬 */
     'address_text' => (isset($data['address_text'])) ? $data['address_text'] : '',  /* 客戶全稱 */
-
     'zip' => (isset($data['zip'])) ? $data['zip'] : '', /* 類別編號 */
     'contact'=> (isset($data['contact'])) ? $data['contact'] : '',
     'contact_title'=> (isset($data['contact_title'])) ? $data['contact_title'] : '',
@@ -89,22 +88,21 @@ add_action( 'rest_api_init', function () {
     'callback' => 'edit_customers_addr_handler',
   ) );
 });
-function edit_customers_addr_handler(){
+function edit_customers_addr_handler($data){
   global $wpdb;
   $table_name =  $wpdb->prefix . 'customer_address';;
 
   $tdata = array(
-    'customer_id' => (isset($data['fields']['customer_id'])) ? $data['fields']['customer_id'] : 0, /* 客戶編號 */
-    'addr_id' => (isset($data['fields']['addr_id'])) ? $data['fields']['addr_id'] : '', /* 帳款歸屬 */
-    'address_text' => (isset($data['address_text'])) ? $data['fields']['address_text'] : '',  /* 客戶全稱 */
-
-    'zip' => (isset($data['fields']['zip'])) ? $data['fields']['zip'] : '', /* 類別編號 */
-    'contact'=> (isset($data['fields']['contact'])) ? $data['fields']['contact'] : '',
-    'contact_title'=> (isset($data['fields']['contact_title'])) ? $data['fields']['contact_title'] : '',
-    'contact_phone'=> (isset($data['fields']['contact_phone'])) ? $data['fields']['contact_phone'] : '',
-    'contact_fax'=> (isset($data['fields']['contact_fax'])) ? $data['fields']['contact_fax'] : '',    
+    'customer_id' => (isset($data['customer_id'])) ? $data['customer_id'] : '', /* 客戶編號 */
+    'addr_id' => (isset($data['addr_id'])) ? $data['addr_id'] : '', /* 帳款歸屬 */
+    'address_text' => (isset($data['address_text'])) ? $data['address_text'] : '',  /* 客戶全稱 */
+    'zip' => (isset($data['zip'])) ? $data['zip'] : '', /* 類別編號 */
+    'contact'=> (isset($data['contact'])) ? $data['contact'] : '',
+    'contact_title'=> (isset($data['contact_title'])) ? $data['contact_title'] : '',
+    'contact_phone'=> (isset($data['contact_phone'])) ? $data['contact_phone'] : '',
+    'contact_fax'=> (isset($data['contact_fax'])) ? $data['contact_fax'] : '',     
   );
 
   
-  $wpdb->update( $table_name, $tdata, array('id' => $data['cur_id']) );
+  $wpdb->update( $table_name, $tdata, array('id' => $data['id']) );
 }
