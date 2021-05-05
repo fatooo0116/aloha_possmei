@@ -19,7 +19,7 @@ function woocommerce_product_custom_fields()
 
     woocommerce_wp_text_input(
         array(
-            'id' => 'product_id',           
+            'id' => 'meta_product_id',           
             'label' => __('產品編號', 'woocommerce'),
             'desc_tip' => 'true',
             'value' => $results[0]['product_id']
@@ -28,7 +28,7 @@ function woocommerce_product_custom_fields()
 
     woocommerce_wp_text_input(
         array(
-            'id' => 'product_eng_name',           
+            'id' => 'meta_product_eng_name',           
             'label' => __('產品英文名', 'woocommerce'),
             'desc_tip' => 'true',
             'value' => $results[0]['product_eng_name']
@@ -37,7 +37,7 @@ function woocommerce_product_custom_fields()
 
     woocommerce_wp_text_input(
         array(
-            'id' => 'cuft',           
+            'id' => 'meta_cuft',           
             'label' => __('CUFT', 'woocommerce'),
             'desc_tip' => 'true',
             'value' => $results[0]['cuft']
@@ -46,7 +46,7 @@ function woocommerce_product_custom_fields()
 
     woocommerce_wp_text_input(
         array(
-            'id' => 'net_weight',           
+            'id' => 'meta_net_weight',           
             'label' => __('淨重', 'woocommerce'),
             'desc_tip' => 'true',
             'value' => $results[0]['net_weight']
@@ -55,7 +55,7 @@ function woocommerce_product_custom_fields()
 
     woocommerce_wp_text_input(
         array(
-            'id' => 'gross_weight',           
+            'id' => 'meta_gross_weight',           
             'label' => __('總重', 'woocommerce'),
             'desc_tip' => 'true',
             'value' => $results[0]['gross_weight']
@@ -65,6 +65,13 @@ function woocommerce_product_custom_fields()
 
 
     echo '</div>';
+
+
+       /*  SAVE woo_id  is   customer not exist  */
+   global $wpdb, $post;
+   $table_name =  $wpdb->prefix . 'product';;
+   $result = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE woo_id = '$post->ID'");
+   print_r($result);
 }
 
 
@@ -72,16 +79,41 @@ function woocommerce_product_custom_fields()
 add_action('woocommerce_process_product_meta', 'woocommerce_product_custom_fields_save');
 function woocommerce_product_custom_fields_save($post_id)
 {
+    $update_obj = array();
     // Custom Product Text Field
-    $woocommerce_custom_product_text_field = $_POST['_custom_product_text_field'];
-    if (!empty($woocommerce_custom_product_text_field))
-        update_post_meta($post_id, '_custom_product_text_field', esc_attr($woocommerce_custom_product_text_field));
-    // Custom Product Number Field
-    $woocommerce_custom_product_number_field = $_POST['_custom_product_number_field'];
-    if (!empty($woocommerce_custom_product_number_field))
-        update_post_meta($post_id, '_custom_product_number_field', esc_attr($woocommerce_custom_product_number_field));
-    // Custom Product Textarea Field
-    $woocommerce_custom_procut_textarea = $_POST['_custom_product_textarea'];
-    if (!empty($woocommerce_custom_procut_textarea))
-        update_post_meta($post_id, '_custom_product_textarea', esc_html($woocommerce_custom_procut_textarea));
+    $meta_product_id = $_POST['meta_product_id'];
+    if (!empty($meta_product_id)){
+        $update_obj['product_id'] = $meta_product_id;
+    }
+
+    $meta_product_eng_name = $_POST['meta_product_eng_name'];
+    if (!empty($meta_product_eng_name)){
+        $update_obj['product_eng_name'] = $meta_product_eng_name;
+    }
+
+    $meta_cuft = $_POST['meta_cuft'];
+    if (!empty($meta_cuft)){
+        $update_obj['cuft'] = $meta_cuft;
+    }
+
+    $meta_net_weight = $_POST['meta_net_weight'];
+    if (!empty($meta_net_weight)){
+        $update_obj['net_weight'] = $meta_net_weight;
+    }
+
+
+    $meta_gross_weight = $_POST['meta_gross_weight'];
+    if (!empty($meta_gross_weight)){
+        $update_obj['gross_weight'] = $meta_gross_weight;
+    }
+
+   global $wpdb, $post;
+   $table_name =  $wpdb->prefix . 'product';;
+   $sql = "SELECT * FROM $table_name where woo_id=".$post->ID;
+   $results = $wpdb->update($table_name,$update_obj,array('woo_id'=>$post_id));
+   // print_r($results);
+
+
 }
+
+

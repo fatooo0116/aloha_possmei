@@ -213,3 +213,48 @@ function edit_product_handler($data){
     $result = $wpdb->update( $table_name, $obj, array('id' => $data['cur_id']) );
     return $result;
 }
+
+
+/*  ============================= update_product_img   =============================  */
+add_action( 'rest_api_init', function ($data) {
+  register_rest_route( 'cargo/v1', '/upload_product_img', array(
+    'methods' => 'POST',
+    'callback' => 'upload_product_img_handler',
+  ) );
+});
+
+
+function upload_product_img_handler($data){
+
+ 
+  $result = 0;
+
+  if((isset($data['woo_post_id'])) & (isset($data['attachment_id']))){
+    $result =  set_post_thumbnail($data['woo_post_id'],$data['attachment_id'] );
+  }
+
+  $img = get_the_post_thumbnail_url($data['woo_post_id'],'full');
+ 
+  if($result){
+    return $img;
+  }else{
+    return $result;
+  }  
+}
+
+
+
+
+
+/*  ============================= update_product_img   =============================  */
+add_action( 'rest_api_init', function ($data) {
+  register_rest_route( 'cargo/v1', '/get_product_img', array(
+    'methods' => 'POST',
+    'callback' => 'get_product_img_handler',
+  ) );
+});
+function get_product_img_handler($data){
+
+  // return $data['woo_id'];
+  return get_the_post_thumbnail_url($data['woo_id'],'full');
+}
