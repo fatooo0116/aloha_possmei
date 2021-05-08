@@ -17,6 +17,7 @@ add_action( 'rest_api_init', function () {
     // $sql .= ' order by product_id ASC';
     $results = $wpdb->get_results($sql,ARRAY_A);
 
+
     foreach($results as $key => $item){
         
         if($item['woo_id']){
@@ -313,8 +314,30 @@ function edit_product_handler($data){
   );
     $table_name =  $wpdb->prefix . 'product';;
     $result = $wpdb->update( $table_name, $obj, array('id' => $data['cur_id']) );
+
+    /*  Update the woo post  */
+    if($data['fields']['woo_id']){
+      $post_id = $data['fields']['woo_id'];
+      $checked_ptype = $data['ptype_checked'];
+      if($post_id){
+        if($checked_ptype){
+          wp_set_object_terms( $post_id, $checked_ptype,'product_cat');
+        }else{
+          wp_set_object_terms( $post_id, array(),'product_cat');
+        }
+      }      
+      
+    }
+    
+
+
     return $result;
 }
+
+
+
+
+
 
 
 /*  ============================= update_product_img   =============================  */
@@ -350,15 +373,26 @@ function upload_product_img_handler($data){
 
 /*  ============================= update_product_img   =============================  */
 add_action( 'rest_api_init', function ($data) {
-  register_rest_route( 'cargo/v1', '/get_product_img', array(
+  register_rest_route( 'cargo/v1', '/get_product_img_and_cat', array(
     'methods' => 'POST',
-    'callback' => 'get_product_img_handler',
+    'callback' => 'get_product_img_and_cat_handler',
   ) );
 });
-function get_product_img_handler($data){
+function get_product_img_and_cat_handler($data){
+
+  $terms = get_the_terms( $data['woo_id'], 'product_cat' );
+  
+  foreach($terms as $term){
+    $all_terms_names[] = $term->name;
+  }
+
+  $out = array(
+    'post_img' => get_the_post_thumbnail_url($data['woo_id'],'full'),
+    'product_cat' =>  $all_terms_names
+  );
 
   // return $data['woo_id'];
-  return get_the_post_thumbnail_url($data['woo_id'],'full');
+  return $out;
 }
 
 
