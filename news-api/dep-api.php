@@ -47,26 +47,13 @@ add_action( 'rest_api_init', function () {
     
 
     foreach($pid as $in){
-        $result  = $wpdb->delete( $table_name, array( 'id' => $in) );
+        $result  = $wpdb->delete( $table_name, array( 'id' => $in['id']) );
     }
 
 
-    if($result){
+    if($result){        
+      return $result;  
         
-        $page = (isset($data['page'])) ? $data['page'] : 0; 
-        $post_per_page = (isset($data['post_per_page'])) ? $data['post_per_page'] : 10;     
-
-        $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
-        // $sql .= ' order by product_id ASC';
-        $results = $wpdb->get_results($sql);
-        if(!empty($results)){  
-            return $results;
-                      
-        }else{
-          return 0;
-        }    
-        
-
     }else{
         return 0;
     }
@@ -96,14 +83,21 @@ add_action( 'rest_api_init', function () {
     // print_r($dep_id );
 
     
-    $result = $wpdb->insert($table_name , array(
-     //   'dep_id' => (isset($data['dep_id'])) ? $data['dep_id'] : 0,
-     //   'dep_name' => (isset($data['dep_name'])) ? $data['dep_name'] : '',
-    //    'dep_eng_name' => (isset($data['dep_eng_name'])) ? $data['dep_eng_name'] : '',
-    //    'other' => (isset($data['dep_other'])) ? $data['dep_other'] : ''
+    $result = $wpdb->insert($table_name , array(     
+        'dep_id' => (isset($data['dep_id'])) ? $data['dep_id'] : 0,
+        'dep_name' => (isset($data['dep_name'])) ? $data['dep_name'] : ''      
     ));
     return  $result;
   }
+
+
+
+
+
+
+
+
+
 
 
     /*  ===========   Edit  Get ===========  */

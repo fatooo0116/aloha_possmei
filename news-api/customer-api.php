@@ -45,33 +45,18 @@ add_action( 'rest_api_init', function () {
     
     // $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
     foreach($pid as $in){
-      $result  = $wpdb->delete( $table_name, array( 'id' => $in) );
+   
+      if($in['woo_id']>0){
+        $result = wp_delete_post($woo_id);
+        if($result){
+          $wpdb->delete( $table_name, array( 'id' => $in['id'] ));
+        }
+      }else{ /*  woo_id == 0 */
+           $wpdb->delete( $table_name, array( 'id' => $in['id']) );
+      }
     }
 
-    return $result;
-
-
-    /*
-    if($result){
-        
-        $page = (isset($data['page'])) ? $data['page'] : 0; 
-        $post_per_page = (isset($data['post_per_page'])) ? $data['post_per_page'] : 10;     
-
-        $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
-        // $sql .= ' order by product_id ASC';
-        $results = $wpdb->get_results($sql);
-        if(!empty($results)){  
-            return $results;
-                      
-        }else{
-          return 0;
-        }    
-        
-
-    }else{
-        return 0;
-    }
-    */
+    // return $result;
   }
 
 

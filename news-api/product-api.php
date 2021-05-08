@@ -18,7 +18,7 @@ add_action( 'rest_api_init', function () {
     $results = $wpdb->get_results($sql,ARRAY_A);
 
     foreach($results as $key => $item){
-     
+        
         if($item['woo_id']){
             
             if(FALSE === get_post_status( $item['woo_id'])){
@@ -37,6 +37,59 @@ add_action( 'rest_api_init', function () {
       return 0;
     }   
   }
+
+
+
+
+
+
+
+  /* 
+   * ###################   bind_woo_products By Page  ###################  
+  */
+
+  add_action( 'rest_api_init', function () {
+    register_rest_route( 'cargo/v1', '/bind_woo_prod_by_page', array(
+      'methods' => 'POST',
+      'callback' => 'bind_woo_prod_page_handler',
+    ) );
+  });
+  function bind_woo_prod_page_handler($data){
+
+    global $wpdb;
+    $table_name =  $wpdb->prefix . 'product';;
+
+    $pid = (isset($data['checked'])) ? $data['checked'] : 0; 
+
+
+    foreach($pid as $item){
+     
+        if(FALSE === get_post_status( $item['woo_id'])){
+          /*  create woo product  [start] */
+            $post_id = wp_insert_post( array( 
+              'post_title' => $item['product_name'],
+              'post_type' => 'product',
+              'post_status' => 'publish'
+            ));         
+            wp_set_object_terms( $post_id, 'simple', 'product_type' );        
+            update_post_meta( $post_id, '_price', '8888' );
+
+            if($post_id){    
+              // global $wpdb;
+              $table_name =  $wpdb->prefix . 'product';;
+              $updated = $wpdb->update( $table_name,
+                      array('woo_id' => $post_id), 
+                      array('id' => $item['id']));
+              $out[] =  $post_id;       
+            }  
+            /*  create woo product  [end] */
+        }
+
+    }
+  }
+
+
+
 
 
 
@@ -65,14 +118,13 @@ add_action( 'rest_api_init', function () {
     foreach($results as $item){
 
       if($i<1000){
+        /*  create woo product  [start] */
           $post_id = wp_insert_post( array( 
             'post_title' => $item->product_name,
             'post_type' => 'product',
             'post_status' => 'publish'
-          ));
-          // update_post_meta( $post_id, '_eng_name', $data['product_eng_name'] );
-          wp_set_object_terms( $post_id, 'simple', 'product_type' );
-        
+          ));         
+          wp_set_object_terms( $post_id, 'simple', 'product_type' );        
           update_post_meta( $post_id, '_price', '8888' );
 
           if($post_id){    
@@ -82,7 +134,9 @@ add_action( 'rest_api_init', function () {
                     array('woo_id' => $post_id), 
                     array('id' => $item->id));
             $out[] =  $post_id;       
-          }   
+          }  
+        /*  create woo product  [end] */
+
       }
       $i++;   
     }
@@ -92,7 +146,23 @@ add_action( 'rest_api_init', function () {
   }
 
 
-  /* =======================   ==========================   */
+/* =======================   ==========================   */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,14 +180,22 @@ function del_product_handler($data){
   global $wpdb;
   $table_name =  $wpdb->prefix . 'product';;
   
-  // $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
-  // $result  = $wpdb->delete( $table_name, array( 'id' => $pid ) );
+   // $sql = "SELECT woo_id FROM $table_name WHERE  id=".$in;
+   // $result  = $wpdb->delete( $table_name, array( 'id' => $pid ) );
 
   foreach($pid as $in){
-    $result  = $wpdb->delete( $table_name, array( 'id' => $in) );
+   
+    if($in['woo_id']>0){
+      $result = wp_delete_post($woo_id);
+      if($result){
+        $wpdb->delete( $table_name, array( 'id' => $in['id'] ));
+      }
+    }else{ /*  woo_id == 0 */
+         $wpdb->delete( $table_name, array( 'id' => $in['id']) );
+    }
   }
 
-  return $result;
+
 }
 
 
@@ -161,11 +239,35 @@ function create_product_handler($data){
     // 'woo_id'=> (isset($data['woo_id'])) ? $data['woo_id'] : 0, 
   ); 
 
-
+  
   $result = $wpdb->insert($table_name ,$in_data );
+  $new_id = $wpdb->insert_id;
 
   if($result){
-    return $wpdb->insert_id;
+
+        /*  create woo product  [start] */
+        $post_id = wp_insert_post( array( 
+          'post_title' => (isset($data['product_name'])) ? $data['product_name'] : '', 
+          'post_type' => 'product',
+          'post_status' => 'publish'
+        ));         
+        wp_set_object_terms( $post_id, 'simple', 'product_type' );        
+        update_post_meta( $post_id, '_price', '8888' );
+
+        if($post_id){    
+          // global $wpdb;
+          $table_name =  $wpdb->prefix . 'product';;
+          $updated = $wpdb->update( $table_name,
+                  array('woo_id' => $post_id), 
+                  array('id' => $new_id));               
+        }  
+      /*  create woo product  [end] */
+
+  }
+
+
+  if($result){
+    return $new_id;
   }else{
     return 0;
   }  
@@ -207,7 +309,7 @@ function edit_product_handler($data){
     'gross_weight'=> (isset($data['fields']['gross_weight'])) ? $data['fields']['gross_weight'] : '', 
     'weight_unit'=> (isset($data['fields']['weight_unit'])) ? $data['fields']['weight_unit'] : '', 
     'meant'=> (isset($data['fields']['meant'])) ? $data['fields']['meant'] : '',      
-    'woo_id'=> (isset($data['woo_id'])) ? $data['woo_id'] : '', 
+    'woo_id'=> (isset($data['fields']['woo_id'])) ? $data['fields']['woo_id'] : '', 
   );
     $table_name =  $wpdb->prefix . 'product';;
     $result = $wpdb->update( $table_name, $obj, array('id' => $data['cur_id']) );
@@ -258,3 +360,68 @@ function get_product_img_handler($data){
   // return $data['woo_id'];
   return get_the_post_thumbnail_url($data['woo_id'],'full');
 }
+
+
+
+
+/*   =============================   類別取得   =============================  */
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/terms', array(
+    'methods' => 'POST',
+    'callback' => 'get_product_cat_func',
+  ) );
+} );
+
+function get_product_cat_func( $data ) {
+
+  $terms = get_terms( array(
+    'taxonomy' => 'product_cat',
+    'hide_empty' => false,
+  )); 
+
+
+  
+  
+    $output = array();
+    $all = array();
+    $dangling = array();
+
+
+    foreach ($terms as $entry) {
+
+      $temp  = array(
+        "term_id" => $entry -> term_id,
+        "term_name" => $entry -> name,
+        "parent" => $entry -> parent,
+        "count" => $entry -> count
+      );
+
+      $id = $entry->term_id;
+     
+      if($entry->parent == "0") {
+         $all[$id] = $temp;
+        $output[] =& $all[$id];  
+      } else {
+         $dangling[$id] = $temp;
+      }
+    }
+
+    
+    while (count($dangling) > 0) {
+      foreach($dangling as $entry) {
+          $id = $entry['term_id'];
+          $pid = $entry['parent'];
+
+
+          if (isset($all[$pid])) {            
+              $all[$id] = $entry;
+              $all[$pid]['children'][] =& $all[$id]; 
+              unset($dangling[$entry['term_id']]);
+          }
+      }
+    }
+  
+
+
+  return $output;
+} 

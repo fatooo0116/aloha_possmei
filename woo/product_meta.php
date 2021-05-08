@@ -109,11 +109,72 @@ function woocommerce_product_custom_fields_save($post_id)
 
    global $wpdb, $post;
    $table_name =  $wpdb->prefix . 'product';;
-   $sql = "SELECT * FROM $table_name where woo_id=".$post->ID;
-   $results = $wpdb->update($table_name,$update_obj,array('woo_id'=>$post_id));
-   // print_r($results);
 
+   $count = $wpdb->get_var("SELECT COUNT(*) FROM ".$table_name." where woo_id=".$post_id); 
+   if($count){
+     /*  Woo update  => Update React  */
+
+    $sql = "SELECT * FROM $table_name where woo_id=".$post_id;
+    $results = $wpdb->update(
+        $table_name,
+        $update_obj,
+        array('woo_id' => $post_id));
+   }else{
+    /*  Woo 新增  => 新增 React  */
+    $wpdb->insert(
+        $table_name, 
+        array(
+            'product_name' => get_the_title($post), 
+            'woo_id' => $post->ID
+        )
+    );
+   }
+
+   // print_r($results);
 
 }
 
 
+
+
+
+
+
+
+
+
+
+
+/*  
+ *    Woo  刪除同步
+ */
+
+add_action( 'admin_init', 'wpdocs_codex_sync_del');
+function wpdocs_codex_sync_del() {
+    add_action( 'delete_post', 'wpdocs_codex_sync', 10 );
+}
+ 
+function wpdocs_codex_sync($pid){
+
+    global $wpdb;
+    $table_name =  $wpdb->prefix.'product';;  
+    $wpdb->delete(
+        $table_name, // table to delete from
+        array(
+            'woo_id' => $pid // value in column to target for deletion
+        ));    
+}
+
+
+
+/**
+ *    react 新增  => Woo
+ * 
+ */
+
+
+
+ /**
+ *    react 刪除 => Woo  
+ * 
+ */
