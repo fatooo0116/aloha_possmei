@@ -75,6 +75,9 @@ add_action( 'rest_api_init', function () {
             wp_set_object_terms( $post_id, 'simple', 'product_type' );        
             update_post_meta( $post_id, '_regular_price', '0' );
 
+            wp_set_object_terms( $post_id, $item['type_name'],'product_cat');
+
+
             if($post_id){    
               // global $wpdb;
               $table_name =  $wpdb->prefix . 'product';;
