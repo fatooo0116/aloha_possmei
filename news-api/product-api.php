@@ -73,7 +73,7 @@ add_action( 'rest_api_init', function () {
               'post_status' => 'publish'
             ));         
             wp_set_object_terms( $post_id, 'simple', 'product_type' );        
-            update_post_meta( $post_id, '_price', '8888' );
+            update_post_meta( $post_id, '_regular_price', '0' );
 
             if($post_id){    
               // global $wpdb;
@@ -126,7 +126,7 @@ add_action( 'rest_api_init', function () {
             'post_status' => 'publish'
           ));         
           wp_set_object_terms( $post_id, 'simple', 'product_type' );        
-          update_post_meta( $post_id, '_price', '8888' );
+          update_post_meta( $post_id, '_regular_price', '0' );
 
           if($post_id){    
             // global $wpdb;
@@ -187,10 +187,13 @@ function del_product_handler($data){
   foreach($pid as $in){
    
     if($in['woo_id']>0){
-      $result = wp_delete_post($woo_id);
+      $result = wp_delete_post($in['woo_id']);
+      
+      
       if($result){
         $wpdb->delete( $table_name, array( 'id' => $in['id'] ));
       }
+      
     }else{ /*  woo_id == 0 */
          $wpdb->delete( $table_name, array( 'id' => $in['id']) );
     }
@@ -219,24 +222,24 @@ function create_product_handler($data){
   $table_name =  $wpdb->prefix . 'product';;
 
   $in_data = array(
-    'product_id' => (isset($data['product_id'])) ? $data['product_id'] : '', 
-    'type_name' => (isset($data['type_name'])) ? $data['type_name'] : '', 
-    'unit_sn' => (isset($data['unit_sn'])) ? $data['unit_sn'] : '', 
-    'unit_sn_cht' => (isset($data['unit_sn_cht'])) ? $data['unit_sn_cht'] : '', 
-    'product_name'=> (isset($data['product_name'])) ? $data['product_name'] : '', 
-    'invoice_name'=> (isset($data['invoice_name'])) ? $data['invoice_name'] : '', 
-    'product_eng_name'=> (isset($data['product_eng_name'])) ? $data['product_eng_name'] : '', 
-    'money_type'=> (isset($data['money_type'])) ? $data['money_type'] : '', 
-    'price'=> (isset($data['price'])) ? $data['price'] : '', 
-    'out_pack'=> (isset($data['out_pack'])) ? $data['out_pack'] : '', 
-    'out_pack_unit'=> (isset($data['out_pack_unit'])) ? $data['out_pack_unit'] : '', 
-    'in_pack'=> (isset($data['in_pack'])) ? $data['in_pack'] : '', 
-    'in_pack_unit'=> (isset($data['in_pack_unit'])) ? $data['in_pack_unit'] : '', 
-    'cuft'=> (isset($data['cuft'])) ? $data['cuft'] : '', 
-    'net_weight'=> (isset($data['net_weight'])) ? $data['net_weight'] : '', 
-    'gross_weight'=> (isset($data['gross_weight'])) ? $data['gross_weight'] : '', 
-    'weight_unit'=> (isset($data['weight_unit'])) ? $data['weight_unit'] : '', 
-    'meant'=> (isset($data['meant'])) ? $data['meant'] : '', 
+    'product_id' => (isset($data['fields']['product_id'])) ? $data['fields']['product_id'] : '', 
+    'type_name' => (isset($data['fields']['type_name'])) ? $data['fields']['type_name'] : '', 
+    'unit_sn' => (isset($data['fields']['unit_sn'])) ? $data['fields']['unit_sn'] : '', 
+    'unit_sn_cht' => (isset($data['fields']['unit_sn_cht'])) ? $data['fields']['unit_sn_cht'] : '', 
+    'product_name'=> (isset($data['fields']['product_name'])) ? $data['fields']['product_name'] : '', 
+    'invoice_name'=> (isset($data['fields']['invoice_name'])) ? $data['fields']['invoice_name'] : '', 
+    'product_eng_name'=> (isset($data['fields']['product_eng_name'])) ? $data['fields']['product_eng_name'] : '', 
+    'money_type'=> (isset($data['fields']['money_type'])) ? $data['fields']['money_type'] : '', 
+    'price'=> (isset($data['fields']['price'])) ? $data['fields']['price'] : '', 
+    'out_pack'=> (isset($data['fields']['out_pack'])) ? $data['fields']['out_pack'] : '', 
+    'out_pack_unit'=> (isset($data['fields']['out_pack_unit'])) ? $data['fields']['out_pack_unit'] : '', 
+    'in_pack'=> (isset($data['fields']['in_pack'])) ? $data['fields']['in_pack'] : '', 
+    'in_pack_unit'=> (isset($data['fields']['in_pack_unit'])) ? $data['fields']['in_pack_unit'] : '', 
+    'cuft'=> (isset($data['fields']['cuft'])) ? $data['fields']['cuft'] : '', 
+    'net_weight'=> (isset($data['fields']['net_weight'])) ? $data['fields']['net_weight'] : '', 
+    'gross_weight'=> (isset($data['fields']['gross_weight'])) ? $data['fields']['gross_weight'] : '', 
+    'weight_unit'=> (isset($data['fields']['weight_unit'])) ? $data['fields']['weight_unit'] : '', 
+    'meant'=> (isset($data['fields']['meant'])) ? $data['fields']['meant'] : '', 
     // 'woo_id'=> (isset($data['woo_id'])) ? $data['woo_id'] : 0, 
   ); 
 
@@ -244,27 +247,38 @@ function create_product_handler($data){
   $result = $wpdb->insert($table_name ,$in_data );
   $new_id = $wpdb->insert_id;
 
-  if($result){
+  if($new_id){
 
         /*  create woo product  [start] */
         $post_id = wp_insert_post( array( 
-          'post_title' => (isset($data['product_name'])) ? $data['product_name'] : '', 
+          'post_title' => (isset($data['fields']['product_name'])) ? $data['fields']['product_name'] : '', 
           'post_type' => 'product',
           'post_status' => 'publish'
         ));         
         wp_set_object_terms( $post_id, 'simple', 'product_type' );        
-        update_post_meta( $post_id, '_price', '8888' );
+        update_post_meta( $post_id, '_regular_price', '0' );
 
         if($post_id){    
           // global $wpdb;
           $table_name =  $wpdb->prefix . 'product';;
           $updated = $wpdb->update( $table_name,
                   array('woo_id' => $post_id), 
-                  array('id' => $new_id));               
-        }  
-      /*  create woo product  [end] */
+                  array('id' => $new_id));      
+                  
 
+            /*  update image */        
+            if($data['attachment_id']){
+              $result =  set_post_thumbnail( $post_id, $data['attachment_id'] );
+            }
+            if($data['ptype_checked']){
+              wp_set_object_terms( $post_id, $data['ptype_checked'],'product_cat');
+            }
+        }  
+
+       /*  create woo product  [end] */
   }
+
+
 
 
   if($result){

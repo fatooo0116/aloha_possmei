@@ -69,7 +69,8 @@ for ($row = 2; $row <= $highestRow; $row++  ){
         net_weight,
         gross_weight,
         weight_unit,
-        meant
+        meant,
+        woo_id
         ) ".
      "VALUES ".
      "('".$rowData[0][0]."','".
@@ -91,8 +92,7 @@ for ($row = 2; $row <= $highestRow; $row++  ){
         addslashes($rowData[0][65])."','". /*  gross_weight  */
         addslashes($rowData[0][64])."','". /*  weight unit  */
 
-        addslashes($rowData[0][67]).  /*  MEANT */
-        "')";
+        addslashes($rowData[0][67])."','0')";
 
 
      echo $sql;
