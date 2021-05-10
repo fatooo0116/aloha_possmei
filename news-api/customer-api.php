@@ -159,3 +159,76 @@ add_action( 'rest_api_init', function () {
       $table_name =  $wpdb->prefix . 'customer_info';
       $wpdb->update( $table_name, $tdata, array('id' => $data['cur_id']) );
   }
+
+
+
+
+
+
+    /*  ===========   Create woocommerce user  ===========  */
+    add_action( 'rest_api_init', function () {
+      register_rest_route( 'cargo/v1', '/bind_woo_customer_by_page', array(
+        'methods' => 'POST',
+        'callback' => 'bind_woo_customer_by_page_handler',
+      ) );
+    });
+  
+
+    function bind_woo_customer_by_page_handler($data){
+
+        global $wpdb;
+        $table_name =  $wpdb->prefix . 'customer_info';
+
+        $pid = (isset($data['checked'])) ? $data['checked'] : 0; 
+
+      
+        foreach($pid as $item){     
+
+      
+          if(FALSE === get_post_status( $item['woo_id'])){
+            // $user_id = wc_create_new_customer( $item['customer_id'], $item['customer_id'], rand(999,999999) );
+
+            $useremail = "service@wdr.tw";
+            $user_id = wc_create_new_customer($useremail, $item['customer_id'], rand(999,999999) );
+           // return $user_id;
+
+
+           /*  send reset email  [begin]  */
+           if( $user_id){
+              $user = get_user_by( 'email', $user_email );
+            
+              $username = $user->user_login;            
+              $key = get_password_reset_key( $user );
+              $reset_link = wp_login_url() . '?action=rp&key=' . $key . '&login=' . $username;
+        
+              $message = '<h2>' . __('Proceed to reset password : ', 'my_slug') . '</h2><br />' .
+              __('Reset your password link : ', 'my_slug') . 
+              '<a href="'. esc_url( $reset_link ) . '" title="' . __('Reset your password link : ', 'my_slug') .'" >' . 
+              esc_url( $reset_link ) . '</a>';
+        
+              wp_mail( $useremail, "Please Reset User Email and Login", stripslashes( $message ), "Content-Type: text/html; charset=UTF-8" );
+           }
+          /*  send reset email  [end]  */
+
+          }else{
+            return 0;
+          }
+          
+
+          // return $user_id;
+
+          
+          if($post_id){                
+            $table_name =  $wpdb->prefix . 'product';;
+            $updated = $wpdb->update( $table_name,
+                    array('woo_id' => $post_id), 
+                    array('id' => $item['id']));
+            $out[] =  $post_id;       
+          }                   
+        }
+        
+    }
+
+
+
+
