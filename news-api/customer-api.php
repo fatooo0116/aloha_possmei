@@ -17,6 +17,17 @@ function get_customers_handler($data){
   $sql = "SELECT * FROM $table_name order by id DESC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
   
   $results = $wpdb->get_results($sql);
+
+  /*   check User exist */
+  foreach($results as $user){
+    if($user->woo_id>0){
+      if(!get_userdata($user->woo_id)){
+        $user->woo_id=0;
+      }
+    }   
+  }
+
+
   if(!empty($results)){  
       return $results;
    
@@ -189,11 +200,56 @@ add_action( 'rest_api_init', function () {
             // $user_id = wc_create_new_customer( $item['customer_id'], $item['customer_id'], rand(999,999999) );
 
             $useremail = "service@wdr.tw";
-            $user_id = wc_create_new_customer($useremail, $item['customer_id'], rand(999,999999) );
-           // return $user_id;
+           //  $user_id = wc_create_new_customer($useremail, $item['customer_id'], rand(999,999999) );
+            $user_id =  wp_create_user( $item['customer_id'], rand(999,999999));
+
+
+
+
+            if(!is_wp_error($user_id)){            
+              $u = new WP_User($user_id);
+              $u->remove_role( 'subscriber' );
+              $u->add_role( 'customer' );
+              
+              $table_name =  $wpdb->prefix . 'customer_info';;
+              $updated = $wpdb->update( $table_name,
+                      array('woo_id' => $user_id), 
+                      array('id' => $item['id']));
+                   
+            }else{
+              
+              $user_exist_id = username_exists($item['customer_id']);
+              if($user_exist_id){
+                $table_name =  $wpdb->prefix . 'customer_info';;
+                $updated = $wpdb->update( $table_name,
+                        array('woo_id' => $user_exist_id), 
+                        array('id' => $item['id']));
+              }
+            }
+
+           
+
+            /*
+            else{
+              $user_exist_id = username_exists($item['woo_id']);
+              if($user_exist_id){
+                $table_name =  $wpdb->prefix . 'customer_info';;
+                $updated = $wpdb->update( $table_name,
+                        array('woo_id' => $user_exist_id), 
+                        array('id' => $item['id']));
+              }
+
+              echo $user_exist_id;
+            } 
+            */ 
+
+            
+
+
 
 
            /*  send reset email  [begin]  */
+           /*
            if( $user_id){
               $user = get_user_by( 'email', $user_email );
             
@@ -208,6 +264,7 @@ add_action( 'rest_api_init', function () {
         
               wp_mail( $useremail, "Please Reset User Email and Login", stripslashes( $message ), "Content-Type: text/html; charset=UTF-8" );
            }
+           */
           /*  send reset email  [end]  */
 
           }else{
@@ -215,16 +272,7 @@ add_action( 'rest_api_init', function () {
           }
           
 
-          // return $user_id;
-
-          
-          if($post_id){                
-            $table_name =  $wpdb->prefix . 'product';;
-            $updated = $wpdb->update( $table_name,
-                    array('woo_id' => $post_id), 
-                    array('id' => $item['id']));
-            $out[] =  $post_id;       
-          }                   
+          // return $user_id;                 
         }
         
     }

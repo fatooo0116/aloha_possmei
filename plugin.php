@@ -32,7 +32,7 @@ require 'news-api/customer-type-api.php';
 require 'news-api/product-api.php';
 require 'news-api/product-type-api.php';
 require 'news-api/staff-api.php';
-
+require 'news-api/price-api.php';
 
 /*  product_metabox  */
 require 'metabox/product.php';

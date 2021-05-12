@@ -8,6 +8,22 @@ function product_meta_db() {
   
 
 
+
+  $table_name = $wpdb->prefix . 'cprice';
+  $sql = "CREATE TABLE $table_name (
+    id int(12) NOT NULL AUTO_INCREMENT, 
+    product_id  varchar(50) NOT NULL,
+    price  varchar(150) NOT NULL,
+    customer_id  varchar(50) NOT NULL,    
+    UNIQUE KEY id (id)
+  ) $charset_collate;";
+  dbDelta( $sql );
+
+
+
+  
+
+
   $table_name = $wpdb->prefix . 'product';
   $sql = "CREATE TABLE $table_name (
     id int(9) NOT NULL AUTO_INCREMENT, 
