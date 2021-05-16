@@ -1,5 +1,23 @@
+
+#content{
+    .ast-container{
+        max-width: 100%;
+        padding:0;
+    }
+}
+
+
+.woocommerce header .woocommerce-breadcrumb{
+    color:#fff ! important;;
+    a{
+        color:#fff;
+    }
+}
+
+
 .single-product{
     .ast-container{
+
 
         #primary{
             border-right: 0px;

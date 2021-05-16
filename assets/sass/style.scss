@@ -15,6 +15,13 @@
 
     @import "tpl/footer";
 
+
+    @import "tpl/archive_shop";
+
+    @import "tpl/btn";
+
+    @import "tpl/rwd";
+
     @media (min-width: 922px){
         .woocommerce-account header  .ast-container,
         .archive.tax-product_cat header  .ast-container{

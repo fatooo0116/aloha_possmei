@@ -9,14 +9,21 @@ Author URI: https://aloha-tech.com/
 */
 
 // require 'woo/product_meta.php';
- /*  style  */
+ /*  style  */ 
  function wpdocs_theme_name_scripts() {   
     wp_enqueue_style('style-aloha-css', esc_url( plugins_url( 'assets/css/main.css', __FILE__ )), array(), rand(0,9999), 'all');
     wp_enqueue_script( 'script-aloha-js', esc_url( plugins_url( 'assets/js/script.js', __FILE__ )), array(), rand(0,9999), true );
 }
 add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
 
-
+function hook_javascript() {
+    ?>
+        <script>
+           let wpajax = '<?php echo admin_url( 'admin-ajax.php' );?>';
+        </script>
+    <?php
+}
+add_action('wp_head', 'hook_javascript');
 
 
 register_activation_hook( __FILE__, 'product_meta_db' );
@@ -33,6 +40,7 @@ require 'news-api/product-api.php';
 require 'news-api/product-type-api.php';
 require 'news-api/staff-api.php';
 require 'news-api/price-api.php';
+require 'news-api/product_api.php';
 
 /*  product_metabox  */
 require 'metabox/product.php';

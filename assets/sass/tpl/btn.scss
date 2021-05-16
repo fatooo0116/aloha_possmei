@@ -1,0 +1,99 @@
+
+a, .page-title {
+    color: #1AAE76;
+}
+.woocommerce-message, .woocommerce-info {
+    border-top-color: #FFA000 ! important;
+}
+.woocommerce-message::before, .woocommerce-info::before {
+    color: #FFA000 ! important;
+}
+
+
+[data-section="section-header-mobile-trigger"] .ast-button-wrap .mobile-menu-toggle-icon .ast-mobile-svg{
+    fill: #27AC39;
+}
+
+.woocommerce .start_table a.button.product_type_simple{
+    background-color:transparent ! important;
+    transform: scale(1);
+    
+    &:hover{
+        background-color:transparent ! important;
+        color: #FFA000 ! important;
+        transform: scale(1);
+    }
+    &:active{
+        transform: scale(1);
+        background-color:transparent ! important;
+    }
+}
+
+
+.woocommerce a.button{
+    background-color:#27AC39 ! important;
+    transform: scale(0.99);
+    transition: 0.3s;;
+
+    &:hover{
+        background-color: #FFA000 ! important;
+        color:#fff;
+    }
+
+    &:active{
+        background-color: #FFA000 ! important;
+        transform: scale(0.96);
+    }
+}
+
+
+.single-product .ast-container #primary #woo_single_product > .ast-article-single .cart button{
+    background:#27AC39 ! important;
+    transform: scale(0.99);
+    transition: 0.3s;;
+
+    &:hover{
+        background: #FFA000 ! important;
+        color:#fff;
+    }
+
+    &:active{
+        background: #FFA000 ! important;
+        transform: scale(0.96);
+    } 
+}
+
+
+
+.woocommerce-checkout button[type="submit"]{
+    background:#27AC39 ! important;
+    transform: scale(0.99);
+    transition: 0.3s;;
+
+    &:hover{
+        background: #FFA000 ! important;
+        color:#fff;
+    }
+
+    &:active{
+        background: #FFA000 ! important;
+        transform: scale(0.96);
+    }
+}
+
+.woocommerce-page table.cart td.actions .button{
+    background:#27AC39 ! important;
+    transform: scale(0.99);
+    transition: 0.3s;;
+    color:#fff;
+
+    &:hover{
+        background: #FFA000 ! important;
+        color:#fff;
+    }
+
+    &:active{
+        background: #FFA000 ! important;
+        transform: scale(0.96);
+    }
+}

@@ -1,0 +1,97 @@
+
+
+@media only screen and (max-width: 1130px) {
+    #single_shop_pos #main_poss_body .left_menu{
+        max-width: 300px;;
+        width: 100%;;
+    }
+
+
+    #single_shop_pos #main_poss_body #main_product ul.products li .inner{
+        width:100%;
+    }
+    
+    #single_shop_pos #main_poss_body #main_product ul.products{
+        li{
+            padding:0 8px;
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    #single_shop_pos #main_poss_body .left_menu{
+        max-width: 250px;;
+        width: 100% ! important;
+    }
+    #single_shop_pos #main_poss_body #main_product{
+        width: calc(100% - 270px);
+    }
+}
+
+
+@media only screen and (max-width: 875px) {
+    #single_shop_pos #main_poss_body #main_product ul.products li{
+        width:50%;
+    }
+}
+
+
+
+/*  Single Product */
+@media only screen and (max-width: 768px) {
+    #woo_single_product{
+        flex-wrap: wrap;
+    }
+    .single-product .ast-container #primary #woo_single_product > #single_product_menu .left_menu{
+        width: 100% ! important;
+    }
+
+    .single-product .ast-container #primary #woo_single_product > #single_product_menu{
+        width:100%;
+    }
+    .single-product .ast-container #primary #woo_single_product > .ast-article-single{
+        width:100%;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 768px) {
+
+    .start_table{
+        padding:0;
+    }
+    #prodcut_header{
+        margin: 0 0px 30px;
+    }
+
+
+    #single_shop_pos #main_poss_body{
+        flex-wrap: wrap;
+    }
+    #single_shop_pos #main_poss_body .left_menu{
+        width:100%;
+        max-width: none;
+        margin-bottom: 40px;;
+    }
+    #single_shop_pos #main_poss_body #main_product{
+        width:100%;
+    }
+    #single_shop_pos #main_poss_body #main_product ul.products{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        li{
+            padding:0;
+            width:49%;
+        }
+    }
+    #single_shop_pos #main_poss_body #main_product ul.products li .astra-shop-summary-wrap{
+        padding:10px 13px;
+    }
+    #single_shop_pos #main_poss_body #main_product ul.products li .astra-shop-summary-wrap .ast-loop-product__link .woocommerce-loop-product__title{
+        font-size: 16px;
+        line-height: 24px;
+    }
+}

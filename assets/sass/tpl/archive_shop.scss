@@ -1,0 +1,24 @@
+#primary{
+    margin:0;
+    padding-top:0px;
+}
+
+.ast-woo-shop-archive .site-content > .ast-container{
+    padding:0px;
+}
+
+
+#main_poss_body2{
+    display: flex;
+    justify-content: space-between;
+    margin: auto auto 100px;
+    max-width: 1200px;
+    padding: 0 15px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.woocommerce-result-count{ display:none; }
+.woocommerce-ordering{ display:none; }
+
+.ast-woocommerce-container > .woocommerce-breadcrumb{ display:none; }
