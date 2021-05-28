@@ -21,7 +21,7 @@ class productClass {
 
 public function __construct() {
    add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
-   add_action( 'save_post',      array( $this, 'save'         ) );
+   add_action( 'save_post',      array( $this, 'save') );
 }
 
 /**

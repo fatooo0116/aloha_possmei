@@ -98,14 +98,14 @@ function misha_remove_my_account_links( $menu_links ){
 	//unset( $menu_links['payment-methods'] ); // Remove Payment Methods
 	//unset( $menu_links['orders'] ); // Remove Orders
 	unset( $menu_links['downloads'] ); // Disable Downloads
-	unset( $menu_links['edit-account'] ); // Remove Account details tab
+	// unset( $menu_links['edit-account'] ); // Remove Account details tab
 	//unset( $menu_links['customer-logout'] ); // Remove Logout link
  
 
 	$menuOrder = array(		
 		'orders'             => __( '訂單', 'woocommerce' ),					
-		'customer-info' =>'客戶資料',
-		// 'edit-account'    	=> __( '帳戶詳細資料', 'woocommerce' ),
+		// 'customer-info' =>'客戶資料',
+		 'edit-account'    	=> __( '密碼變更', 'woocommerce' ),
 		'customer-logout'    => __( 'Logout', 'woocommerce' ),	   
 	);
 
@@ -118,4 +118,14 @@ add_filter( 'woocommerce_checkout_fields', 'bbloomer_remove_woo_checkout_fields'
 function bbloomer_remove_woo_checkout_fields( $fields ) {
     unset( $fields['billing']['billing_last_name'] ); 
     return $fields;
+}
+
+
+add_filter('woocommerce_save_account_details_required_fields', 'remove_required_fields');
+
+function remove_required_fields( $required_fields ) {
+	unset($required_fields['account_first_name']);
+	unset($required_fields['account_last_name']);
+
+	return $required_fields;
 }

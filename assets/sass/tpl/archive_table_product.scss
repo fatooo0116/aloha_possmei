@@ -49,6 +49,11 @@
                 }
                 td {
 
+                    .price{
+                        font-weight: 600;;
+                        color:#27AC39;
+                    }
+
                     &.action{
                         width:35%;
                     }
@@ -91,4 +96,9 @@
             }
         }
     }
+}
+
+tr.not_availble .product-button,
+tr.not_availble .price{
+    display: none ! important;;
 }

@@ -30,6 +30,11 @@ register_activation_hook( __FILE__, 'product_meta_db' );
 require "db/db.php";
 
 
+require 'option/option.php';
+
+
+
+
 /* API */
 // require 'news-api/api.php';
 require 'news-api/dep-api.php';
@@ -41,6 +46,10 @@ require 'news-api/product-type-api.php';
 require 'news-api/staff-api.php';
 require 'news-api/price-api.php';
 require 'news-api/product_api.php';
+require 'news-api/cart.php';
+require 'news-api/category.php';
+
+
 
 /*  product_metabox  */
 require 'metabox/product.php';
@@ -51,8 +60,10 @@ require 'woo/product_cat_field.php';
 require 'woo/disable_woo.php';
 require 'woo/myaccount.php';
 require 'woo/footer.php';
-
-
+require 'woo/custom_price.php';
+require 'woo/checkout.php';
+require 'woo/order_metabox.php';
+require 'woo/order_admin.php';
 
 
 /*

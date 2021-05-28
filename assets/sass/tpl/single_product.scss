@@ -16,6 +16,19 @@
 
 
 .single-product{
+    .summary.entry-summary.not_availble{
+        .price,
+        form.cart,
+        button[type="submit"]{
+            display:none;
+        }
+    }
+}
+
+
+
+
+.single-product{
     .ast-container{
 
 

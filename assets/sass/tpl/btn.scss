@@ -1,3 +1,11 @@
+::selection {
+    background-color: #27AC39;
+    color: #ffffff;
+}
+a:visited {
+    color: #1AAE76;
+}
+
 
 a, .page-title {
     color: #1AAE76;
@@ -96,4 +104,16 @@ a, .page-title {
         background: #FFA000 ! important;
         transform: scale(0.96);
     }
+}
+
+
+.woocommerce nav.woocommerce-pagination ul li span.current{
+    background:#1AAE76 ! important;
+}
+.woocommerce nav.woocommerce-pagination ul li{
+    border-color: #1AAE76 ! important;
+}
+.woocommerce nav.woocommerce-pagination ul li a:hover,
+.woocommerce nav.woocommerce-pagination ul li a:active{
+    background: #1AAE76 ! important;
 }

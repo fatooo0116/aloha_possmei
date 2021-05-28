@@ -49,6 +49,9 @@ add_action( 'rest_api_init', function () {
     $pid = (isset($data['pid'])) ? $data['pid'] : 0; 
     $price = (isset($data['price'])) ? $data['price'] : 0; 
 
+    $woocid = (isset($data['cid'])) ? $data['woo_cid'] : 0; 
+    $woopid = (isset($data['pid'])) ? $data['woo_pid'] : 0; 
+
    //  $sql = "SELECT * FROM $table_name WHERE product_id=".$pid." AND customer_id=".$cid;
   // $sql .= ' order by product_id ASC';
     
@@ -64,7 +67,9 @@ add_action( 'rest_api_init', function () {
       $result =   $wpdb->update(
                       $table_name,
                       array(
-                        'price' => $price,                       
+                        'price' => $price,  
+                        'woo_pid'=>$woopid,
+                        'woo_cid'=>$woocid,                     
                       ), 
                       array(
                         'product_id'=> $pid,
@@ -77,6 +82,8 @@ add_action( 'rest_api_init', function () {
           'product_id'=> $pid,
           'price' => $price,      
           'customer_id'=> $cid,
+          'woo_pid'=>$woopid,
+          'woo_cid'=>$woocid,
         );     
         $result = $wpdb->insert($table_name,$data);
       }    
@@ -103,16 +110,3 @@ add_action( 'rest_api_init', function () {
      @ product id
      @ customer id
 */
-  function get_price_by_customer($data){
-    $cid = (isset($data['cid'])) ? $data['cid'] : 0; 
-   // $pid = (isset($data['pid'])) ? $data['pid'] : 0; 
-
-
-    if($cid!=0 | $pid!=0){
-      $sql = "SELECT * FROM $table_name WHERE  customer_id=".$cid;
-      $results = $wpdb->get_results($sql);
-      return  $results;
-    }else{
-      return 0;
-    }
-  }

@@ -22,10 +22,17 @@
 
     @import "tpl/rwd";
 
+    @import "tpl/thankyou";
+
+    @import "tpl/modal";
+
+    @import "tpl/order";
+
+
     @media (min-width: 922px){
         .woocommerce-account header  .ast-container,
         .archive.tax-product_cat header  .ast-container{
-            max-width: 1240px ! important;
+            max-width: 1200px ! important;
             margin:auto;
             padding-left: 20px;
             padding-right: 20px;
@@ -34,3 +41,8 @@
             max-width: 1240px;
         }
     }
+
+    select[name="company_address_select"]{
+        width:100%;
+    }
+    

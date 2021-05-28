@@ -89,6 +89,8 @@ for ($row = 2; $row <= $highestRow; $row++  ){
          invoice_eng_long,
          invoice_eng_short,
          trade_mark,
+         termofpayment,
+         payment,
          woo_id
          ) ".
      "VALUES ".
@@ -121,7 +123,9 @@ for ($row = 2; $row <= $highestRow; $row++  ){
           addslashes($rowData[0][28])."','".
           addslashes($rowData[0][30])."','".
           addslashes($rowData[0][31])."',".
-          "'',".          
+          "'','".  
+          addslashes($rowData[0][66])."',".
+          "'',".  
           "0".    
           ")";
 

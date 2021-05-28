@@ -61,17 +61,20 @@ function woocommerce_product_custom_fields()
             'value' => $results[0]['gross_weight']
         )
     );
-
-
-
     echo '</div>';
 
-
+    ?>
+    <style>
+        ._regular_price_field,
+        ._sale_price_field{ opacity: 0; }
+    </style>
+    
+    <?php
        /*  SAVE woo_id  is   customer not exist  */
    global $wpdb, $post;
    $table_name =  $wpdb->prefix . 'product';;
    $result = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE woo_id = '$post->ID'");
-   print_r($result);
+   // print_r($result);
 }
 
 
