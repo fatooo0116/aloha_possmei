@@ -108,7 +108,7 @@ function wpshout_action_example() {
                                  ?>   
                     </div>
                     <div class="sns">
-                        SNS
+                        
                     </div>
                 </div>                    
         </div>

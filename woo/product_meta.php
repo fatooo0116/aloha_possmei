@@ -66,7 +66,7 @@ function woocommerce_product_custom_fields()
     ?>
     <style>
         ._regular_price_field,
-        ._sale_price_field{ opacity: 0; }
+        ._sale_price_field{ opacity: 1; }
     </style>
     
     <?php

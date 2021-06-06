@@ -25,8 +25,20 @@
 }
 
 
+#single_shop_pos #main_poss_body .left_menu  ul#menu-product_1 > li ul.sub-menu > li > ul.sub-menu > li a {
+    padding-left: 50px;
+}
+#single_shop_pos #main_poss_body .left_menu  ul#menu-product_1 > li ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li a {
+    padding-left: 60px;
+}
 
-
+#single_shop_pos #main_poss_body .left_menu ul > li ul.sub-menu     li a{
+    height:40px;
+}
+#single_shop_pos #main_poss_body .left_menu  ul#menu-product_1 > li.menu-item-has-children:before{
+    top:25px;
+    cursor: pointer;
+}
 
 .aloha_header_product_bk{
     height:145px;
@@ -109,6 +121,16 @@
             width:300px;                      
                 
                 
+                ul li.open > ul.sub-menu{
+                    // display: block;
+                   
+                    box-sizing: border-box;
+                    max-height: 700px;
+                    transition: 0.4s;
+
+                }
+
+
                 ul{
                     background:#F8F8F8;
                     padding:0;
@@ -117,15 +139,23 @@
                    > li{
                         position: relative;
                         list-style-type: none;
+                        background: #efefef;
+                        a{
+                            background:#F8F8F8;
+                            &:hover{
+                                color:#27AC39;
+                            }
+                        }
+                       
                         &.menu-item-has-children > a{
-                            position: relative;
+                          //  position: relative;
                         }
                         &.current-menu-item.menu-item-has-children > a:after{
                             display: none;
                         }
-                        &.menu-item-has-children > a:after{
+                        &.menu-item-has-children:before{
                             right:15px;
-                            top:50%;
+                            top:18px;
                             margin-top:-2px;
                             content:'';
                             position: absolute;;
@@ -135,17 +165,35 @@
                             border-right: 5px solid transparent;                                
                             border-top: 5px solid #3A3A3A;
                         }
+                        &.menu-item-has-children.open:before,
+                        &.menu-item-has-children.current-menu-item:before,
+                        &.menu-item-has-children.current-menu-ancestor:before{
+                            right:15px;
+                            
+                            margin-top:-2px;
+                            content:'';
+                            position: absolute;;
+                            transform: rotate(-180deg);
+                            width: 0; 
+                            height: 0; 
+                            border-left: 5px solid transparent;
+                            border-right: 5px solid transparent;                                
+                            border-top: 5px solid #27AC39;
+                        }
 
-                        &.current-menu-parent > a{
+                        
+
+
+                        &.current-menu-parent  {
                             position: relative;
                             color:#27AC39;
-                            font-weight: bold;
-                            &:after{
+                         //   font-weight: bold;
+                            &:before{
                                 transform: rotate(-180deg);
                                 right:15px;
-                                top:50%;
+                                top:25px;
                                 margin-top:-2px;
-                                content:'';
+                              //  content:'';
                                 position: absolute;;
                                 width: 0; 
                                 height: 0; 
@@ -156,22 +204,36 @@
                         }
 
                         ul.sub-menu{ 
-                            display: none;                           
+                         
+                            overflow: hidden;
+                            box-sizing: border-box;
+                            max-height: 0px;
+                            transition: 0.4s;
+
                             li{
                                 &:after{
                                     display:none;
                                 }
                                 a{
                                     color:#7A7A7A;
-                                    padding-left: 40px;
+                                    padding-left: 30px;
+                                    display: flex;                                 
+                                    align-items: center;
+                                    border-left: 1px solid #3f7b51;
+                                                                
+                                    &:hover{
+                                        color:#27AC39;
+                                    }
                                 }
                                 
                                 border-bottom: 0px;;
                             }
                         }
-                        &.current-menu-parent ul.sub-menu,
-                        &.current-menu-item ul.sub-menu{ 
-                            display:block;
+                        &.current-menu-ancestor > ul.sub-menu,
+                        &.current-menu-parent > ul.sub-menu,
+                        &.current-menu-item > ul.sub-menu{ 
+                            // display:block;
+                            max-height: 1200px;
                         }
 
 
@@ -192,22 +254,28 @@
                         list-style-type: none;;
                         &.current-menu-item{
                             > a{
-                                color:#fff ! important;
-                                background:#27AC39;
+                                color:#27AC39 ! important;
+                                font-weight: bold;
+                                // background:#27AC39;
                             }
                         }
                         a{
+                            border-left: 3px solid #3f7b51;
                             height:53px;
-                            display: block;
-                            width:100%;
+                            display: flex;
+                            align-items: center;
+                            width: calc(100% - 40px);
                             box-sizing: border-box;
-                            padding:15px 20px;
+                            padding:0px 20px;
                             color:#3A3A3A;
                         }
                     }
                 }                
             
         }
+
+
+
 
         
         /*  main product */
@@ -243,6 +311,8 @@
                                 color: #3a3a3a;
                                 font-size:18px;
                                 line-height: 26px;;
+                                height:52px;
+                                overflow:hidden;
                             }
                         }
                     }

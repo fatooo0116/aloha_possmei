@@ -1,4 +1,59 @@
 <?php 
+
+
+
+  /* 
+   * ###################   bind_woo_products By Page  ###################  
+  */
+
+  add_action( 'rest_api_init', function () {
+    register_rest_route( 'cargo/v1', '/bind_woo_prod_by_page', array(
+      'methods' => 'POST',
+      'callback' => 'bind_woo_prod_page_handler',
+    ) );
+  });
+  function bind_woo_prod_page_handler($data){
+
+    global $wpdb;
+    $table_name =  $wpdb->prefix . 'product';;
+
+    $pid = (isset($data['checked'])) ? $data['checked'] : 0; 
+
+
+    foreach($pid as $item){
+     
+        if(FALSE === get_post_status( $item['woo_id'])){
+          /*  create woo product  [start] */
+            $post_id = wp_insert_post( array( 
+              'post_title' => $item['product_name'],
+              'post_type' => 'product',
+              'post_status' => 'publish'
+            ));         
+            wp_set_object_terms( $post_id, 'simple', 'product_type' );        
+            update_post_meta( $post_id, '_regular_price', '8888' );
+            update_post_meta( $post_id, '_price', '8888' );
+
+           
+            wp_set_object_terms( $post_id, $item['type_name'],'product_cat');
+
+
+            if($post_id){    
+              // global $wpdb;
+              $table_name =  $wpdb->prefix . 'product';;
+              $updated = $wpdb->update( $table_name,
+                      array('woo_id' => $post_id), 
+                      array('id' => $item['id']));
+              $out[] =  $post_id;       
+            }  
+            /*  create woo product  [end] */
+        }
+
+    }
+  }
+
+
+
+
 add_action( 'rest_api_init', function () {
   register_rest_route( 'cargo/v1', '/get_products_ajax', array(
     'methods' => 'POST',
@@ -13,7 +68,7 @@ function get_products_ajax_handler($data){
   global $wpdb;
   $table_name =  $wpdb->prefix . 'product';;
 
-  $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
+  $sql = "SELECT * FROM $table_name order by id DESC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
   // $sql .= ' order by product_id ASC';
   $results = $wpdb->get_results($sql,ARRAY_A);
 
@@ -24,7 +79,7 @@ function get_products_ajax_handler($data){
     
       
       if($item['woo_id']){
-          
+         $results[$key]['img'] = get_the_post_thumbnail_url($item['woo_id'],'full');
           
           if(FALSE === get_post_status( $item['woo_id'])){
               $results[$key]['woo_id'] = 0;
@@ -94,7 +149,7 @@ function sort_products_ajax_handler($data){
     if($column){    
       $sql = "SELECT * FROM $table_name order by ".$column." ".$dir." Limit ".($page-1)*$post_per_page.', '.$post_per_page;  
     }else{
-      $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
+      $sql = "SELECT * FROM $table_name order by id DESC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
     }  
   }
 
@@ -108,6 +163,8 @@ function sort_products_ajax_handler($data){
   foreach($results as $key => $item){          
     if($item['woo_id']){
         
+      $results[$key]['img'] = get_the_post_thumbnail_url($item['woo_id'],'full');
+
         
         if(FALSE === get_post_status( $item['woo_id'])){
             $results[$key]['woo_id'] = 0;

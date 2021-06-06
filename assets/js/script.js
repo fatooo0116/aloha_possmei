@@ -86,6 +86,16 @@
 
 
 
-    
+   if($("#single_shop_pos .left_menu").length>0){
+      $("#menu-product_1.product li").on("click",function(e){
+        console.log('xxx');
+        if($(this).hasClass('menu-item-has-children')){
+          console.log('xxx2');
+          $(this).toggleClass('open');
+        // e.preventDefault();
+        }
+         e.stopPropagation();
+      });
+   }
 
 })(jQuery);

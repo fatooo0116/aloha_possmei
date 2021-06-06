@@ -49,7 +49,7 @@ require 'news-api/product_api.php';
 require 'news-api/cart.php';
 require 'news-api/category.php';
 require 'news-api/product-ajax-api.php';
-
+require 'news-api/mass-upload.php';
 
 
 
