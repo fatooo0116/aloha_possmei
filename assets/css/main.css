@@ -776,18 +776,16 @@ body.woocommerce-account.logged-in .woocommerce .woocommerce-MyAccount-navigatio
 
 ol.spec {
   color: #777;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.5em;
-  margin: 0 0 10px 0;
+  margin: 0 0 0px 0;
   padding: 0;
   list-style-type: none; }
   ol.spec > li {
     margin-right: 5px; }
 
-.start_table ol.spec {
-  display: flex; }
-  .start_table ol.spec > li:last-child {
-    display: none; }
+.start_table ol.spec > li:last-child {
+  display: none; }
 
 @media only screen and (max-width: 1024px) {
   .woocommerce div.product .related.products ul.products li {
@@ -801,7 +799,12 @@ ol.spec {
 
 .product_list.boxgrid,
 .product_list.boxlist {
-  width: 100%; }
+  width: 100%;
+  opacity: 0; }
+
+.product_list.boxgrid.active,
+.product_list.boxlist.active {
+  opacity: 1; }
 
 #single_shop_pos #main_poss_body #main_product ul.products li .ast-woo-product-category {
   color: #777;
@@ -891,7 +894,8 @@ ol.spec {
       justify-content: center;
       margin-right: 15px;
       transform: scale(1);
-      border: 1px solid transparent; }
+      border: 1px solid transparent;
+      transition: 0s; }
       #single_shop_pos #main_poss_body #main_product .controller_out .controller .cbtn svg path {
         fill: #7a7a7a; }
       #single_shop_pos #main_poss_body #main_product .controller_out .controller .cbtn.active {
@@ -1004,6 +1008,7 @@ ol.spec {
           .start_table table thead th.product-button .add_to_cart_button {
             width: 45%; }
     .start_table table td, .start_table table th {
+      padding: 3px 5px;
       border-top: 1px solid #F5F5F5;
       border-bottom: 1px solid #F5F5F5;
       border-left: 0px;
@@ -1011,12 +1016,16 @@ ol.spec {
     .start_table table tr:nth-child(even) {
       background: #F5F5F5; }
     .start_table table tbody tr th {
-      width: 30%; }
+      width: 50%; }
       .start_table table tbody tr th a {
-        color: #3a3a3a;
+        color: #888;
         font-weight: normal; }
         .start_table table tbody tr th a:hover {
           color: #27AC39; }
+      .start_table table tbody tr th .eng_title {
+        display: block;
+        font-weight: 600;
+        color: #3a3a3a; }
     .start_table table tbody tr td .price {
       font-weight: 600;
       color: #27AC39; }
@@ -1068,6 +1077,14 @@ tr.not_availble .price {
 .single-product .summary.entry-summary.not_availble button[type="submit"] {
   display: none; }
 
+.single-product .ast-container .summary.entry-summary .woocommerce-breadcrumb {
+  display: none; }
+.single-product .ast-container .summary.entry-summary h2 {
+  font-size: 30px;
+  font-weight: 500; }
+.single-product .ast-container .summary.entry-summary h1 {
+  font-size: 20px;
+  color: #777; }
 .single-product .ast-container #primary {
   border-right: 0px;
   width: 100%;
@@ -2483,5 +2500,8 @@ table.order_table {
     max-width: 1240px; } }
 select[name="company_address_select"] {
   width: 100%; }
+
+.not_availble .button.product_type_simple {
+  display: none !important; }
 
 /*# sourceMappingURL=main.css.map */

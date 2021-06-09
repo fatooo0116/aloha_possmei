@@ -27,6 +27,7 @@
         }
 
         td,th{
+            padding:3px 5px;
             border-top:1px solid #F5F5F5;
             border-bottom:1px solid #F5F5F5;
             border-left:0px;
@@ -39,13 +40,18 @@
         tbody{
             tr{
                 th{
-                    width: 30%;;
+                    width: 50%;;
                     a{
-                        color:#3a3a3a;
+                        color:#888;
                         font-weight:normal;
                         &:hover{
                             color:#27AC39;
                         }
+                    }
+                    .eng_title{
+                        display: block;
+                        font-weight: 600;;
+                        color: #3a3a3a;
                     }
                 }
                 td {

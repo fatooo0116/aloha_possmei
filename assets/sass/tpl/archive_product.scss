@@ -4,6 +4,12 @@
 .product_list.boxgrid,
 .product_list.boxlist{
     width:100%;
+    opacity: 0;
+}
+
+.product_list.boxgrid.active,
+.product_list.boxlist.active{
+    opacity: 1;
 }
 
 #single_shop_pos #main_poss_body #main_product ul.products li .ast-woo-product-category{
@@ -135,6 +141,7 @@
                     margin-right: 15px;
                     transform: scale(1);
                     border: 1px solid transparent;  
+                    transition: 0s;;
                     svg path{
                         fill:rgb(122, 122, 122);;
                     } 

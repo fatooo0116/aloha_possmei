@@ -46,3 +46,9 @@
         width:100%;
     }
     
+    .not_availble .button.product_type_simple{
+        display: none ! important;;
+    }
+    .button.product_type_simple.add_to_cart_button{
+       //  display: block;
+    }

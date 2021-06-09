@@ -32,6 +32,23 @@
     .ast-container{
 
 
+
+        .summary.entry-summary{
+            .woocommerce-breadcrumb{
+                 display: none;;
+            }
+            h2{
+                font-size: 30px;;
+                font-weight: 500;
+            }
+            h1{
+                font-size: 20px;;
+                color:#777;
+            }
+        }
+
+
+
         #primary{
             border-right: 0px;
             width: 100%;;

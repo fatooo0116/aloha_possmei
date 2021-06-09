@@ -327,9 +327,9 @@
 
 ol.spec{
     color: #777;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.5em;
-    margin:0 0 10px 0;
+    margin:0 0 0px 0;
     padding:0;
     list-style-type: none;
    >li{
@@ -337,7 +337,7 @@ ol.spec{
     }
 }
 .start_table ol.spec{
-    display: flex;
+   // display: flex;
     > li:last-child{
         display:none;
     }
