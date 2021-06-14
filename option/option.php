@@ -39,7 +39,7 @@ function register_mysettings2() {
     register_setting( 'ruibian-settings-group', 'ddg_header_hbanner');
     register_setting( 'ruibian-settings-group', 'blog_archive_header');
 
-    register_setting( 'ruibian-settings-group', 'ddg_header_favion');
+    register_setting( 'ruibian-settings-group', 'per_page_product');
     
 }
 
@@ -150,7 +150,18 @@ function ruibian_settings_page() {
                                 </table>
 
 
-                                
+                                <table class="form-table">
+
+                                        <tr valign="top"  >
+                                            <th scope="row">每頁產品數量設定</th>
+                                            <td>
+                                                <input id="per_page_product" class="form-control" name="per_page_product" type="text" value="<?php echo esc_attr( get_option('per_page_product') ); ?>"/><br/>                                                
+                                            </td>
+                                        </tr>
+
+                                    <hr/>
+
+                                </table>                                
                                 
 
 

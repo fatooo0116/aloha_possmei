@@ -240,3 +240,75 @@ function search_products_ajax_handler(){
     return 0;
   }  
 }
+
+
+
+
+/**   Fix  Product Price  */
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/product_fix_price', array(
+    'methods' => 'POST',
+    'callback' => 'product_fix_price_handler',
+  ) );
+});
+
+function product_fix_price_handler(){  
+
+
+  global $wpdb;
+  $table_name =  $wpdb->prefix . 'product';;
+
+
+  $out = array();
+  $data = array();
+  $px = array();
+  $i = 0;
+
+  $args = array(
+    'post_type' => 'product',
+    'posts_per_page' => 99999
+    );
+  $loop = new WP_Query( $args );
+  if ( $loop->have_posts() ) {
+    while ( $loop->have_posts() ) : $loop->the_post();
+
+      // wc_get_template_part( 'content', 'product' );
+      // update_post_meta( $post_id, '_regular_price', '8888' );
+
+
+      $sql = "SELECT * FROM $table_name WHERE woo_id=".get_the_ID();
+      $results = $wpdb->get_results($sql,ARRAY_A);
+
+
+
+      if(get_post_meta( get_the_ID(), '_regular_price',true)!='8888'){
+        $data[get_the_ID()] = get_post_meta( get_the_ID(), '_regular_price',true);       
+      }
+
+      // $px[] = $results[0]["product_id"];            
+      $kv_edited_post = array(
+        'ID'           =>  get_the_ID(),       
+        'post_content' => "編號：".$results[0]["product_id"]
+      );
+      wp_update_post( $kv_edited_post);
+      
+
+
+      $i++;
+
+    endwhile;
+  } else {
+    // echo __( 'No products found' );
+  }
+  wp_reset_postdata();
+
+  $out = array(
+    'data' => $data, 
+    'total_num' => $i ,
+    'px'=> $px
+  );
+
+
+  return $out; 
+}
+

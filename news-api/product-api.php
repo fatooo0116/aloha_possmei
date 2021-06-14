@@ -93,7 +93,9 @@ add_action( 'rest_api_init', function () {
             'post_status' => 'publish'
           ));         
           wp_set_object_terms( $post_id, 'simple', 'product_type' );        
-          update_post_meta( $post_id, '_regular_price', '0' );
+         
+          update_post_meta( $post_id, '_regular_price', '8888' );
+          update_post_meta( $post_id, '_price', '8888' );
 
           if($post_id){    
             // global $wpdb;

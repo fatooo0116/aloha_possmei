@@ -166,7 +166,7 @@ add_action( 'rest_api_init', function () {
         'invoice_eng_short'=> (isset($data['invoice_eng_short'])) ? $data['invoice_eng_short'] : '',
 
         'cemail'=> (isset($data['cemail'])) ? $data['cemail'] : '',
-        'payment'=> (isset($data['payment'])) ? $data['payment'] : '',
+        'staff_id'=> (isset($data['staff_id'])) ? $data['staff_id'] : '',
         'termofpayment'=> (isset($data['termofpayment'])) ? $data['termofpayment'] : '',
        
         'trade_mark'=> (isset($data['trade_mark'])) ? $data['trade_mark'] : '',
@@ -277,7 +277,7 @@ add_action( 'rest_api_init', function () {
       // 'woo_id'=> (isset($data['fields']['woo_id'])) ? $data['fields']['woo_id'] : $woo_id,
 
       // 'cemail'=> (isset($data['fields']['cemail'])) ? $data['fields']['cemail'] : '',
-      'payment'=> (isset($data['fields']['payment'])) ? $data['fields']['payment'] : '',
+      'staff_id'=> (isset($data['fields']['staff_id'])) ? $data['fields']['staff_id'] : '',
       'termofpayment'=> (isset($data['fields']['termofpayment'])) ? $data['fields']['termofpayment'] : '',
 
     );

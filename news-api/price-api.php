@@ -1,5 +1,59 @@
 <?php
 
+
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/price_upload', array(
+    'methods' => 'POST',
+    'callback' => 'price_upload_handler',
+  ) );
+});
+
+function price_upload_handler($data){
+    $file = (isset($_FILES['myPrice'])) ? $_FILES['myPrice'] : 0; 
+  
+    $tmpfname = $_FILES['myPrice']['tmp_name'];
+    include 'Classes/PHPExcel/IOFactory.php';
+    $inputFileName = $tmpfname;
+    date_default_timezone_set('PRC');
+    // 讀取excel檔案
+    try {
+      $inputFileType = PHPExcel_IOFactory::identify($inputFileName);
+      $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+      $objPHPExcel = $objReader->load($inputFileName);
+    } catch(Exception $e) {
+    die(‘載入檔案發生錯誤：”‘.pathinfo($inputFileName,PATHINFO_BASENAME).'”: '.$e->getMessage());
+    }
+    // 確定要讀取的sheet，什麼是sheet，看excel的右下角，真的不懂去百度吧
+    $sheet = $objPHPExcel->getSheet(0);
+    $highestRow = $sheet->getHighestRow();
+    $highestColumn = $sheet->getHighestColumn();
+
+  
+  for ($row = 2; $row <= $highestRow; $row++  ){
+      $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+
+      var_dump($rowData);
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 add_action( 'rest_api_init', function () {
     register_rest_route( 'cargo/v1', '/get_price', array(
       'methods' => 'POST',

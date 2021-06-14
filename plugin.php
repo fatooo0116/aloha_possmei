@@ -54,7 +54,7 @@ require 'news-api/mass-upload.php';
 
 
 /*  product_metabox  */
-require 'metabox/product.php';
+// require 'metabox/product.php';
 
 /*  wow  */
 require 'woo/product_meta.php';
@@ -66,6 +66,12 @@ require 'woo/custom_price.php';
 require 'woo/checkout.php';
 require 'woo/order_metabox.php';
 require 'woo/order_admin.php';
+require 'woo/product_display.php';
+require 'woo/product_metabox_print.php';
+
+
+/* export order to excel */
+require 'export_excel/export_order.php';
 
 
 /*

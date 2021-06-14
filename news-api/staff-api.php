@@ -15,7 +15,7 @@ add_action( 'rest_api_init', function () {
     $table_name =  $wpdb->prefix . 'comp_staff';;
   
     
-    $sql = "SELECT * FROM $table_name order by id ASC Limit ".($page-1)*$post_per_page.', '.$post_per_page;
+    $sql = "SELECT * FROM $table_name order by id Desc Limit ".($page-1)*$post_per_page.', '.$post_per_page;
     // $sql .= ' order by product_id ASC';
     $results = $wpdb->get_results($sql);
     if(!empty($results)){  
@@ -75,29 +75,18 @@ function create_staff_handler($data){
   global $wpdb;
   $table_name =  $wpdb->prefix . 'comp_staff';;
 
-  $in_data = array(
-    'product_id' => (isset($data['product_id'])) ? $data['product_id'] : '', 
-    'type_name' => (isset($data['type_name'])) ? $data['type_name'] : '', 
-    'unit_sn' => (isset($data['unit_sn'])) ? $data['unit_sn'] : '', 
-    'unit_sn_cht' => (isset($data['unit_sn_cht'])) ? $data['unit_sn_cht'] : '', 
-    'product_name'=> (isset($data['product_name'])) ? $data['product_name'] : '', 
-    'invoice_name'=> (isset($data['invoice_name'])) ? $data['invoice_name'] : '', 
-    'product_eng_name'=> (isset($data['product_eng_name'])) ? $data['product_eng_name'] : '', 
-    'money_type'=> (isset($data['money_type'])) ? $data['money_type'] : '', 
-    'price'=> (isset($data['price'])) ? $data['price'] : '', 
-    'out_pack'=> (isset($data['out_pack'])) ? $data['out_pack'] : '', 
-    'out_pack_unit'=> (isset($data['out_pack_unit'])) ? $data['out_pack_unit'] : '', 
-    'in_pack'=> (isset($data['in_pack'])) ? $data['in_pack'] : '', 
-    'in_pack_unit'=> (isset($data['in_pack_unit'])) ? $data['in_pack_unit'] : '', 
-    'cuft'=> (isset($data['cuft'])) ? $data['cuft'] : '', 
-    'net_weight'=> (isset($data['net_weight'])) ? $data['net_weight'] : '', 
-    'gross_weight'=> (isset($data['gross_weight'])) ? $data['gross_weight'] : '', 
-    'weight_unit'=> (isset($data['weight_unit'])) ? $data['weight_unit'] : '', 
-    'meant'=> (isset($data['meant'])) ? $data['meant'] : '', 
+  $in_data = array(   
+    'staff_id'=> (isset($data['staff_id'])) ? $data['staff_id'] : '', 
+    'dep_id'=> (isset($data['dep_id'])) ? $data['dep_id'] : '', 
+    'staff_name'=> (isset($data['staff_name'])) ? $data['staff_name'] : '', 
+    'staff_eng_name'=> (isset($data['staff_eng_name'])) ? $data['staff_eng_name'] : '', 
+    'xgroup'=> (isset($data['xgroup'])) ? $data['xgroup'] : '', 
+    'email'=> (isset($data['email'])) ? $data['email'] : '', 
     // 'woo_id'=> (isset($data['woo_id'])) ? $data['woo_id'] : 0, 
   ); 
 
   
+  $result = $wpdb->insert($table_name , $in_data);
 
   if($result){
     return $new_id;
@@ -105,3 +94,35 @@ function create_staff_handler($data){
     return 0;
   }  
 }
+
+
+
+    /*  ===========   Edit  ===========  */
+    add_action( 'rest_api_init', function () {
+      register_rest_route( 'cargo/v1', '/edit_staff', array(
+        'methods' => 'POST',
+        'callback' => 'cedit_staff_handler',
+      ) );
+    });
+  
+  
+    function cedit_staff_handler($data){
+  
+      // print_r($data);
+      
+      $obj = array(    
+        'staff_id'=> (isset($data['fields']['staff_id'])) ? $data['fields']['staff_id'] : '', 
+        'dep_id'=> (isset($data['fields']['dep_id'])) ? $data['fields']['dep_id'] : '', 
+        'staff_name'=> (isset($data['fields']['staff_name'])) ? $data['fields']['staff_name'] : '', 
+        'staff_eng_name'=> (isset($data['fields']['staff_eng_name'])) ? $data['fields']['staff_eng_name'] : '', 
+        'xgroup'=> (isset($data['fields']['xgroup'])) ? $data['fields']['xgroup'] : '', 
+        'email'=> (isset($data['fields']['email'])) ? $data['fields']['email'] : '', 
+      );
+  
+      global $wpdb;
+      $table_name =  $wpdb->prefix . 'comp_staff';;
+  
+        $result = $wpdb->update( $table_name, $obj, array('id' => $data['cur_id']) );
+        return $data;
+        
+    }
