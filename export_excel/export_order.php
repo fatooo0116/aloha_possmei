@@ -3,7 +3,7 @@
 
 
 /* output  excel  */
-if(isset($_POST['download'])=='true' ) {
+if(isset($_POST['download_erp'])=='true' ) {
     add_action('admin_init', 'output_forum_xls');
 }     
 

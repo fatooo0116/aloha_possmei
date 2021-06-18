@@ -21,6 +21,29 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
 
         ?>
        
+        <script>
+                    function PrintElem(elem)
+                        {
+                            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+                            mywindow.document.write('<html><head><title></title>');
+                            mywindow.document.write('</head><body >');                            
+                            mywindow.document.write(document.getElementById(elem).innerHTML);
+                            mywindow.document.write('</body></html>');
+
+                            mywindow.document.close(); // necessary for IE >= 10
+                            mywindow.focus(); // necessary for IE >= 10*/
+
+                            mywindow.print();
+                            mywindow.close();
+
+                            return true;
+                        }
+                </script>
+
+            <div class="toolbar">
+                <button  onClick="PrintElem('shop_order_invoice')" >列印訂單</button>
+            </div>
 
        <div id="shop_order_invoice">
 
@@ -96,17 +119,36 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
              #order_table2{
                  font-size:13px;
              }
+             .other_info ul li{ display:flex;align-items:center;padding-right:15px;}
+             .other_info ul li b{padding-right:10px; }
         </style>
         <?php
-            global $post;
+            global $wpdb,$post;
             $order = wc_get_order( $post->ID );
             $user_id   = $order->get_user_id();  
 
             $user_meta = get_customer_info($user_id);   
             $adderss = get_customer_address($user_meta[0]['customer_id']);
+
+          //   print_r($user_meta);
+
+            $saleman = '';
+            if($user_meta[0]['staff_id']){
+                $table_name =  $wpdb->prefix . 'comp_staff';;
+                $sql_staff = "SELECT * FROM $table_name order by id Desc";
+                $results = $wpdb->get_results($sql_staff);
+                foreach($results as $sale){
+                    // print_r($sale);
+                    if($sale->staff_id==$user_meta[0]['staff_id']){
+                        $saleman = $sale->staff_name;
+                    }
+                };
+            }
             
             if($user_id){
             ?>
+
+
             <div id="my_page">
                 <div id="top_header">
                     <div class="logo"><a href="#"><img src="https://bosime.31app.tw/wp-content/uploads/2021/06/pdf_logo-e1623394551444.jpg" /></a></div>
@@ -119,92 +161,92 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
                     </div>
                 </div>    
 
-            <div id="customer_info">
-                <div class="c1">
-                    <div class="item">
-                        <label for="">單據日期</label>
-                        <div class="cname"><?php echo get_the_date('Y/m/d',$post->ID); ?></div>
-                    </div>
-                </div>    
-                <div class="c1">
-                    <div class="item">
-                        <label for="">客戶名稱</label>
-                        <div class="cname"><?php  echo $user_meta[0]['cname']; ?></div>
-                    </div>
-                    <div class="item">
-                        <label for="" class="llb2">CUST PO:</label>
-                        <div class="cname"></div>
-                    </div>
-                </div>
-
-                <div class="c1">
-                    <div class="item">
-                        <label for="">聯絡人</label>
-                        <div class="cname"><?php  echo $user_meta[0]['contact']; ?></div>
-                    </div>
-                </div>
-
-                <div class="c1">
-                    <div class="item">
-                        <label for="">付款方式</label>
-                        <div class="cname">			
-                            <?php echo $user_meta[0]['payment']; ?>	
+                <div id="customer_info">
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">單據日期</label>
+                            <div class="cname"><?php echo get_the_date('Y/m/d',$post->ID); ?></div>
                         </div>
-                    </div>	
-                </div>					
-
-                <div class="c1">
-                    <div class="item">
-                        <label for="">電話</label>
-                        <div class="cname"><?php  echo $user_meta[0]['contact_tel1']; ?></div>
-                    </div>	
-                    <div class="item">
-                        <label for="" class="llb2">傳真(FAX NO):</label>
-                        <div class="cname"><?php  echo $user_meta[0]['contact_fax']; ?></div>
-                    </div>
-                </div>             
-
-                <div class="c1">
-                    <div class="item">
-                        <label for="">公司地址</label>
-                        <div class="cname">
-                            <?php  
-                                $select_cur =  get_post_meta($post->ID,'company_address_select',true);
-
-                                // echo $select_cur;
-
-                                
-                                if($select_cur){
-
-                                    global $wpdb;
-                                    $table =  $wpdb->prefix . 'customer_address';
-                                    $sql = "SELECT * From ".$table." WHERE id='".$select_cur."'";                                    
-                                    $results = $wpdb->get_results($sql,ARRAY_A);
-                                    echo $results[0]['zip']." ".$results[0]['address_text'];
-
-                                }else{
-                                    echo get_post_meta($post->ID,'company_address',true);
-                                }
-
-                                // echo get_post_meta($post->ID,'company_address',true);
-                            ?>
+                    </div>    
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">客戶名稱</label>
+                            <div class="cname"><?php  echo $user_meta[0]['cname']; ?></div>
+                        </div>
+                        <div class="item">
+                            <label for="" class="llb2">CUST PO:</label>
+                            <div class="cname"></div>
                         </div>
                     </div>
-                </div>
 
-
-                <div class="c1">
-                    <div class="item">
-                        <label for="">輸往地區(SHIPPING TO):</label>
-                        <div class="cname"></div>
-                    </div>	
-                    <div class="item">
-                        <label for="" class="llb2">付款方式(PAYMENT):</label>
-                        <div class="cname"></div>
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">聯絡人</label>
+                            <div class="cname"><?php  echo $user_meta[0]['contact']; ?></div>
+                        </div>
                     </div>
-                </div>  
 
-            </div>
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">付款方式</label>
+                            <div class="cname">			
+                                <?php echo $user_meta[0]['payment']; ?>	
+                            </div>
+                        </div>	
+                    </div>					
+
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">電話</label>
+                            <div class="cname"><?php  echo $user_meta[0]['contact_tel1']; ?></div>
+                        </div>	
+                        <div class="item">
+                            <label for="" class="llb2">傳真(FAX NO):</label>
+                            <div class="cname"><?php  echo $user_meta[0]['contact_fax']; ?></div>
+                        </div>
+                    </div>             
+
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">公司地址</label>
+                            <div class="cname">
+                                <?php  
+                                    $select_cur =  get_post_meta($post->ID,'company_address_select',true);
+
+                                    // echo $select_cur;
+
+                                    
+                                    if($select_cur){
+
+                                        global $wpdb;
+                                        $table =  $wpdb->prefix . 'customer_address';
+                                        $sql = "SELECT * From ".$table." WHERE id='".$select_cur."'";                                    
+                                        $results = $wpdb->get_results($sql,ARRAY_A);
+                                        echo $results[0]['zip']." ".$results[0]['address_text'];
+
+                                    }else{
+                                        echo get_post_meta($post->ID,'company_address',true);
+                                    }
+
+                                    // echo get_post_meta($post->ID,'company_address',true);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="c1">
+                        <div class="item">
+                            <label for="">輸往地區(SHIPPING TO):</label>
+                            <div class="cname"></div>
+                        </div>	
+                        <div class="item">
+                            <label for="" class="llb2">付款方式(PAYMENT):</label>
+                            <div class="cname"></div>
+                        </div>
+                    </div>  
+
+                </div>
             
 
             <?php 
@@ -293,7 +335,7 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
                 </tr>
 
                 <tr>
-                    <td colspan="2" class="tl" ><b>TERM OF PAYMENT:</b> </td>
+                    <td colspan="2" class="tl" ><b>TERM OF PAYMENT:</b> <?php echo $user_meta[0]['termofpayment']; ?></td>
                     <td colspan="4" ><b>重量 WEIGHT:</b> <?php echo $gross_wt." KG" ?>	</td>                    
                 </tr>
 
@@ -312,11 +354,21 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
                 </tr>               
             </tbody>
         </table>    
+
+         <div class="other_info">
+            <ul>
+                <li>
+                    <b>業務人員</b> 
+                    <div class="info"><?php echo $saleman; ?></div>
+                </li>
+            </ul>
+         </div>
+
         </div>
         </div>
         <?php
 
-        print_r($user_meta);
+        // print_r($user_meta);
 
     }
 }

@@ -35,7 +35,7 @@ class printClass {
         if ( in_array( $post_type, $post_types ) ) {
             add_meta_box(
                 'some_meta_box_name',
-                __( 'Print Invoice', 'textdomain' ),
+                __( '匯出訂單工具', 'textdomain' ),
                 array( $this, 'render_meta_box_content' ),
                 $post_type,
                 'side',
@@ -106,29 +106,10 @@ class printClass {
  
             ?>
 
-            <script>
-                    function PrintElem(elem)
-                        {
-                            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
-                            mywindow.document.write('<html><head><title></title>');
-                            mywindow.document.write('</head><body >');                            
-                            mywindow.document.write(document.getElementById(elem).innerHTML);
-                            mywindow.document.write('</body></html>');
-
-                            mywindow.document.close(); // necessary for IE >= 10
-                            mywindow.focus(); // necessary for IE >= 10*/
-
-                            mywindow.print();
-                            mywindow.close();
-
-                            return true;
-                        }
-                </script>
-                <button  onClick="PrintElem('shop_order_invoice')" >列印訂單</button>
                 <form method="post">
-                    <input type="hidden" name="download" value="true">
-                    <button type="submit" >匯出訂單到ERP</button>
+                    <input type="hidden" name="download" value="false">
+                    <button type="submit" style="display:none;" >匯出訂單到ERP</button>
                 </form>
             <?php
     }

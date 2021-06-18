@@ -28,19 +28,130 @@ function price_upload_handler($data){
     $highestRow = $sheet->getHighestRow();
     $highestColumn = $sheet->getHighestColumn();
 
-  
+  $output = array();
+  $success = array();
+  $error = array();
+
+  global $wpdb;
+
   for ($row = 2; $row <= $highestRow; $row++  ){
       $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
 
-      var_dump($rowData);
-  }
+      $customer_id =  $rowData[0][0]; /*  cid */
+      $product_id =  $rowData[0][1];  /* pid */
+      $pname =  $rowData[0][2];
+      $price =  $rowData[0][3];  /*  Price */
+
+      /*  get woo_pid */
+      $ptable_name = $wpdb->prefix . 'product';;
+      $sql = "SELECT * FROM $ptable_name WHERE product_id='".$product_id."'";
+      $obj = $wpdb->get_results($sql);
+      $woopid = $obj[0]->woo_id;
+      $pid = $obj[0]->id; /*  pid  是 table id */
+
+
+      $ctable_name = $wpdb->prefix . 'customer_info';;
+      $sql = "SELECT * FROM $ctable_name WHERE customer_id='".$customer_id."'";
+      $obj2 = $wpdb->get_results($sql);
+      $woocid = $obj2[0]->woo_id;
+      $cid = $obj2[0]->id; /*  pid  是 table id */
+
+     
+
+     
+      if($woopid & $woocid){      
+          if($cid & $pid){
+
+            $table_name =  $wpdb->prefix . 'cprice';;
+            $sql = "SELECT count(*) FROM $table_name WHERE product_id=".$pid." AND customer_id=".$cid;
+            $count = $wpdb->get_var($sql);
+            if($count>0){
+            
+            $result =   $wpdb->update(
+                            $table_name,
+                            array(
+                              'price' => $price,  
+                              'woo_pid'=>$woopid,
+                              'woo_cid'=>$woocid,                     
+                            ), 
+                            array(
+                              'product_id'=> $pid,
+                              'customer_id'=> $cid,
+                            ));
+      
+            }else{
+              
+                $data =  array(
+                'product_id'=> $pid,
+                'price' => $price,      
+                'customer_id'=> $cid,
+                'woo_pid'=>$woopid,
+                'woo_cid'=>$woocid,
+              );     
+              $result = $wpdb->insert($table_name,$data);
+            }   
+            
+
+            $success[] =  array(
+              'status' => $result, 
+              'product_id' => $product_id,
+              'pname' => $pname,
+              'customer_id' => $customer_id,
+              'price' => $price,          
+              '$woopid' => $woopid,   
+              '$woocid'=>$woocid,      
+            ); 
+          }else{
+
+            $error[] =  array(
+              'status' => 0, 
+              'product_id' => $product_id,
+              'pname' => $pname,
+              'customer_id' => $customer_id,
+              'price' => $price,          
+              '$woopid' => $woopid,   
+              '$woocid'=>$woocid,      
+            ); 
+          }
+      }else{
+          $error[] =  array(
+            'status' => 0, 
+            'product_id' => $product_id,
+            'pname' => $pname,
+            'customer_id' => $customer_id,
+            'price' => $price,          
+            '$woopid' => $woopid,   
+            '$woocid'=>$woocid,      
+          ); 
+      }
   
+  }
+
+
+  $output  = array(
+                'success' => $success,
+                'error' => $error
+              );
+  
+   return json_encode($output);
 }
 
 
 
 
 
+
+
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/import_price', array(
+    'methods' => 'POST',
+    'callback' => 'import_update_price_handler',
+  ) );
+});
+
+function import_update_handler(){
+
+}
 
 
 

@@ -646,12 +646,12 @@ body.woocommerce-account.logged-in .woocommerce .woocommerce-MyAccount-navigatio
     display: flex;
     justify-content: space-between;
     margin: auto auto 100px;
-    max-width: 1200px;
+    max-width: 1400px;
     padding: 0 15px;
     width: 100%;
     /*  main product */ }
     #single_shop_pos #main_poss_body .left_menu {
-      width: 300px; }
+      width: 240px; }
       #single_shop_pos #main_poss_body .left_menu ul li.open > ul.sub-menu {
         box-sizing: border-box;
         max-height: 700px;
@@ -751,25 +751,27 @@ body.woocommerce-account.logged-in .woocommerce .woocommerce-MyAccount-navigatio
             padding: 0px 20px;
             color: #3A3A3A; }
     #single_shop_pos #main_poss_body #main_product {
-      width: calc(100% - 345px); }
+      width: calc(100% - 280px); }
       #single_shop_pos #main_poss_body #main_product ul.products {
         display: flex;
         flex-wrap: wrap; }
         #single_shop_pos #main_poss_body #main_product ul.products:before, #single_shop_pos #main_poss_body #main_product ul.products:after {
           display: none; }
         #single_shop_pos #main_poss_body #main_product ul.products > li {
-          padding: 0 15px;
+          padding: 0 5px;
           display: block;
-          margin: 0 0 30px;
-          width: 33.333%; }
+          margin: 0 0 15px;
+          width: 20%; }
           #single_shop_pos #main_poss_body #main_product ul.products > li .inner {
-            width: 248px;
             border: 1px solid #EEE; }
+            #single_shop_pos #main_poss_body #main_product ul.products > li .inner a {
+              display: block;
+              padding: 5px 0; }
           #single_shop_pos #main_poss_body #main_product ul.products > li .astra-shop-summary-wrap {
-            padding: 20px; }
+            padding: 13px; }
             #single_shop_pos #main_poss_body #main_product ul.products > li .astra-shop-summary-wrap .ast-loop-product__link .woocommerce-loop-product__title {
               color: #3a3a3a;
-              font-size: 18px;
+              font-size: 16px;
               line-height: 26px;
               height: 52px;
               overflow: hidden; }
@@ -787,6 +789,9 @@ ol.spec {
 .start_table ol.spec > li:last-child {
   display: none; }
 
+@media only screen and (max-width: 1200px) {
+  #single_shop_pos #main_poss_body #main_product ul.products > li {
+    width: 25%; } }
 @media only screen and (max-width: 1024px) {
   .woocommerce div.product .related.products ul.products li {
     width: calc(50% - 10px);

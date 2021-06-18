@@ -67,7 +67,7 @@ require 'woo/checkout.php';
 require 'woo/order_metabox.php';
 require 'woo/order_admin.php';
 require 'woo/product_display.php';
-require 'woo/product_metabox_print.php';
+require 'woo/product_metabox_erp.php';
 
 
 /* export order to excel */
