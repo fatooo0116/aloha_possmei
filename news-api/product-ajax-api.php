@@ -1,6 +1,35 @@
 <?php 
 
 
+/*  */
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/open_hide_product', array(
+    'methods' => 'POST',
+    'callback' => 'open_hide_product_handler',
+  ) );
+});
+
+function open_hide_product_handler($data){
+  $xstate = $data['xstate']; 
+  $pid = (isset($data['pid'])) ? $data['pid'] : 0; 
+
+  echo $state;
+  echo $pid;
+
+  if($pid>0){
+    $current_post = get_post( $pid, 'ARRAY_A' );
+    $current_post['post_status'] = ($xstate)?'publish':'draft';
+    return wp_update_post($current_post);
+  }else{
+    return 0;
+  }
+  
+  // unhook this function so it doesn't loop infinitely
+}
+
+
+
+
 
   /* 
    * ###################   bind_woo_products By Page  ###################  
@@ -76,7 +105,7 @@ function get_products_ajax_handler($data){
 
 
   foreach($results as $key => $item){
-    
+      $results[$key]['is_open'] = (get_post_status( $item['woo_id'])=="publish")? true : false;
       
       if($item['woo_id']){
          $results[$key]['img'] = get_the_post_thumbnail_url($item['woo_id'],'full');
@@ -160,7 +189,11 @@ function sort_products_ajax_handler($data){
 
 
 
-  foreach($results as $key => $item){          
+  foreach($results as $key => $item){     
+    
+    $results[$key]['is_open'] = (get_post_status( $item['woo_id'])=="publish")? true : false;
+
+    
     if($item['woo_id']){
         
       $results[$key]['img'] = get_the_post_thumbnail_url($item['woo_id'],'full');

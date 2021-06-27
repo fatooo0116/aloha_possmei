@@ -110,6 +110,7 @@ function product_meta_db() {
     invoice_eng_short varchar(120) NOT NULL,
     trade_mark varchar(200) NOT NULL,
     woo_id int(11) NOT NULL,  
+    tax int(10) NOT NULL,  
     UNIQUE KEY id (id)
   ) $charset_collate;";
   dbDelta( $sql );

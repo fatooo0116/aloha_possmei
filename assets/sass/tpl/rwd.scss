@@ -12,7 +12,7 @@
     }
     
     #single_shop_pos #main_poss_body #main_product ul.products{
-        li{
+       > li{
             padding:0 8px;
         }
     }
@@ -30,7 +30,7 @@
 
 
 @media only screen and (max-width: 875px) {
-    #single_shop_pos #main_poss_body #main_product ul.products li{
+    #single_shop_pos #main_poss_body #main_product ul.products > li{
         width:50%;
     }
 }
@@ -82,7 +82,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        li{
+        > li{
             padding:0;
             width:49%;
         }

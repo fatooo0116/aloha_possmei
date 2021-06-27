@@ -170,6 +170,7 @@ add_action( 'rest_api_init', function () {
         'termofpayment'=> (isset($data['termofpayment'])) ? $data['termofpayment'] : '',
        
         'trade_mark'=> (isset($data['trade_mark'])) ? $data['trade_mark'] : '',
+        'tax'=> (isset($data['tax'])) ? $data['tax'] : '',
         'woo_id'=> $user_id,
     ));
 
@@ -278,6 +279,7 @@ add_action( 'rest_api_init', function () {
 
       // 'cemail'=> (isset($data['fields']['cemail'])) ? $data['fields']['cemail'] : '',
       'staff_id'=> (isset($data['fields']['staff_id'])) ? $data['fields']['staff_id'] : '',
+      'tax'=> (isset($data['fields']['tax'])) ? $data['fields']['tax'] : '',
       'termofpayment'=> (isset($data['fields']['termofpayment'])) ? $data['fields']['termofpayment'] : '',
 
     );

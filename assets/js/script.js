@@ -83,16 +83,24 @@
 
        
           buttons: {
+            checkout:{
+              text: '馬上結帳',
+              action:function(){
+                window.location  = '/checkout';
+              }					
+            },
+                        
             cart:{
               text: '查看訂單',
               action:function(){
                 window.location  = '/cart';
               }					
             },
-            checkout:{
-              text: '馬上結帳',
+
+            exit:{
+              text: '繼續購物',
               action:function(){
-                window.location  = '/checkout';
+                jc.close();
               }					
             },
           }

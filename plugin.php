@@ -69,6 +69,7 @@ require 'woo/order_admin.php';
 require 'woo/product_display.php';
 require 'woo/product_metabox_erp.php';
 
+require 'woo/add_tax.php';
 
 /* export order to excel */
 require 'export_excel/export_order.php';
@@ -93,6 +94,8 @@ add_filter( 'woocommerce_loop_add_to_cart_link', function( $html, $product ) {
     return $html;
 }, 10, 2 );
 */
+
+
 
 add_filter( 'woocommerce_loop_add_to_cart_link', 'quantity_inputs_for_loop_ajax_add_to_cart', 10, 2 );
 function quantity_inputs_for_loop_ajax_add_to_cart( $html, $product ) {

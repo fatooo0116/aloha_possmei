@@ -302,6 +302,10 @@
                         a{
                             display: block;
                             padding:5px 0;
+
+                            &.add_to_cart_button.ajax_add_to_cart{
+                                padding:10px;
+                            }
                         }
                     }
 

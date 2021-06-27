@@ -90,10 +90,10 @@ class printClass {
         /* OK, it's safe for us to save the data now. */
  
         // Sanitize the user input.
-        $mydata = sanitize_text_field( $_POST['myplugin_new_field'] );
+       // $mydata = sanitize_text_field( $_POST['myplugin_new_field'] );
  
         // Update the meta field.
-        update_post_meta( $post_id, '_my_meta_value_key', $mydata );
+       // update_post_meta( $post_id, '_my_meta_value_key', $mydata );
     }
  
  
@@ -104,13 +104,41 @@ class printClass {
      */
     public function render_meta_box_content( $post ) {
  
+
+        
+        $order = new WC_Order($post->ID);
+        $j = 2;
+        foreach ( $order->get_items() as $item_id => $item ) {
+            $qty = $item->get_quantity();
+            echo $qty;
+        }
+
+
+
             ?>
+               
+                <input type="hidden" name="download_erp" value="0" class="button" id="export_download" />
+                <input type="hidden" name="download_oid" value="<?php echo get_the_ID(); ?>" />                
+                <button type="submit" id="export_to_excel" class="btn">匯出訂單到ERP</button>
+         
+                <script>
+                    (function($){
+                        $(document).ready(function(){
+                            
 
-
-                <form method="post">
-                    <input type="hidden" name="download" value="false">
-                    <button type="submit" style="display:none;" >匯出訂單到ERP</button>
-                </form>
+                            $("#export_to_excel").on("click",function(e){
+                                $("#export_download").val(1);
+                               // e.preventDefault();
+                                // $("#export_form").submit();
+                               // $("#export_download").remove();
+                               setTimeout(() => {
+                                window.location = window.location.href;
+                               }, 1000);
+                            });
+                            
+                        });
+                    })(jQuery);
+                </script>
             <?php
     }
 }
