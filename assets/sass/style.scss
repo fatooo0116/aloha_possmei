@@ -29,6 +29,19 @@
     @import "tpl/order";
 
 
+    @import "tpl/api_search";
+
+
+    .right_menu_doc{
+        padding:10px;
+        float: right;
+    }
+
+
+    .woocommerce div.product span.onsale{
+        display:none;
+    }
+
     @media (min-width: 922px){
         .woocommerce-account header  .ast-container,
         .archive.tax-product_cat header  .ast-container{

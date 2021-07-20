@@ -260,6 +260,11 @@ function create_product_handler($data){
 
 
 
+
+
+
+
+
   /*  ===========   Edit  ===========  */
 add_action( 'rest_api_init', function () {
   register_rest_route( 'cargo/v1', '/edit_product', array(

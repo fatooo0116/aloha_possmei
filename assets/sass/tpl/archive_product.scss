@@ -13,11 +13,23 @@
 }
 
 #single_shop_pos #main_poss_body #main_product ul.products li .ast-woo-product-category{
-    color: #777;
+    color: #27AC39;
     font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
 }
-
-
+#single_shop_pos #main_poss_body #main_product ul.products li .ast-woo-product-category a{
+    margin-right: 5px;;
+}
+#main_product .result_meta{
+    display: flex;
+    padding: 0 10px 0;
+    justify-content: space-between;
+}
+#main_product .result_meta .woocommerce-result-count{
+    padding:0 0px;
+    text-align: right;    
+}
 
 #main_product ul.products li.not_availble {
     .price,
@@ -197,7 +209,7 @@
     justify-content: space-between;;
     align-items: center;
     padding-bottom: 25px;;
-    margin:0 15px 30px;    
+    margin:0 5px 5px;    
     h1{
         margin:0;
         padding:0px 0 0px;;

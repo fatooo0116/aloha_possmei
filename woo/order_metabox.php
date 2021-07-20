@@ -130,7 +130,8 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
             $user_meta = get_customer_info($user_id);   
             $adderss = get_customer_address($user_meta[0]['customer_id']);
 
-          //   print_r($user_meta);
+   
+          //  print_r($user_meta);
 
             $saleman = '';
             if($user_meta[0]['staff_id']){
@@ -141,6 +142,8 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
                     // print_r($sale);
                     if($sale->staff_id==$user_meta[0]['staff_id']){
                         $saleman = $sale->staff_name;
+
+                        
                     }
                 };
             }
@@ -293,6 +296,8 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
         
                         $price = get_price_by_customer($user_id,$product_id);
 
+                      //  print_r($spec);
+
                       
                         echo '<tr>';   
                         echo '<td>'.$i.'</td>';                                                              
@@ -304,11 +309,13 @@ if ( ! function_exists( 'mv_add_other_fields_for_packaging' ) )
                         echo '<td>'.$item->get_subtotal().'</td>';
                         echo '<td></td>';
                         echo '<td></td>';
-                        echo '<td></td>';
+                        echo '<td>'.$order->get_customer_note().'</td>';
                         echo '</tr>';     
                         $i++;
                     }            
                 ?>
+
+
 
                 <tr>
                     <td colspan="2" class="tl"><b>SHIPPING DATE: </b></td>

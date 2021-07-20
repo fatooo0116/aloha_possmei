@@ -19,8 +19,8 @@ function output_forum_xls(){
             $objPHPExcel = new PHPExcel();
 
             // Set document properties
-            $objPHPExcel->getProperties()->setCreator("Maarten Balliauw")
-                ->setLastModifiedBy("Maarten Balliauw")
+            $objPHPExcel->getProperties()->setCreator("Mike")
+                ->setLastModifiedBy("Mike")
                 ->setTitle("Office 2007 XLSX Test Document")
                 ->setSubject("Office 2007 XLSX Test Document")
                 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
@@ -48,8 +48,20 @@ function output_forum_xls(){
         $my_query = new WP_Query($args);
 
 
+
+        if($_POST['download_erp']==2){ /* 訂購憑單  */
+            $name1 = '訂購憑單';
+        }else{
+            $name1 = 'S/C#';
+        }
+
+
+
+
+
         $objPHPExcel->setActiveSheetIndex(0)
-        ->setCellValue($excel_col[0].'1', 'S/C#' )
+     
+        ->setCellValue($excel_col[0].'1', $name1)        
         ->setCellValue($excel_col[1].'1', 'Date' )
         ->setCellValue($excel_col[2].'1',  'Cust PO#'  )
         ->setCellValue($excel_col[3].'1',  'Cust NO' )
@@ -135,6 +147,10 @@ function output_forum_xls(){
         $order = new WC_Order($order_id);
         $user_id   = $order->get_user_id();
 
+        $user_meta = get_customer_info($user_id);   
+
+        
+
         $j = 2;
         foreach ( $order->get_items() as $item_id => $item ) {
 
@@ -142,146 +158,35 @@ function output_forum_xls(){
             $product_id = $item->get_product_id();
             $price = get_price_by_customer($user_id,$product_id);
 
+            $spec = get_product_meta($item->get_product_id());
+
+
+            $order_date =  (date("Y",strtotime($order->order_date)) - 1911)."/".date("m/d",strtotime($order->order_date));
+
             $objPHPExcel->setActiveSheetIndex(0)
             //  ->setCellValue($excel_col[0].$j, substr($orderdata['order_date'],0,10) )
             ->setCellValue($excel_col[0].$j, substr($order->get_order_number(),0) )
-            ->setCellValue($excel_col[1].$j, (date("Y",strtotime($order->order_date)) - 1911)."/".date("m/d",strtotime($order->order_date)) )
+            ->setCellValue($excel_col[1].$j, $order_date )
+            ->setCellValue($excel_col[3].$j, $user_meta[0]['customer_id'] )
+            ->setCellValue($excel_col[4].$j, 'NTD'  )   
+            ->setCellValue($excel_col[10].$j, $user_meta[0]['staff_id'] )     
+               
+            
+            ->setCellValue($excel_col[56].$j, $spec[0]['product_id'])
             ->setCellValue($excel_col[57].$j, $item->get_name())
             ->setCellValue($excel_col[58].$j, ' '.$qty )
-            ->setCellValue($excel_col[61].$j, $price);
+            ->setCellValue($excel_col[61].$j, $price)
+
+            ->setCellValue($excel_col[63].$j, $item->get_subtotal())
+            ->setCellValue($excel_col[64].$j, $order_date)
+            ->setCellValue($excel_col[75].$j, $order->get_customer_note());
+
             
+
              $j++;
         }
 
 
-
-        /*
-        $order = new WC_Order($order_id);
-        $order->populate($customer_order);
-        $orderdata = (array) $order;
-        $all_products = '';
-        $qty='';
-        $total=0;
-
-
-        $j=0;
-        foreach ($order->get_items() as $xitem){
-
-
-              $user_info = get_userdata($order->get_user_id());
-              $product_name ="";
-
-              $price=0;
-
-
-              //foreach ($order->get_items() as $xitem){
-                  $product_name  = $xitem['name'];
-                //  $total += (int)$xitem['item_meta']['_line_subtotal'][0];
-
-             // }
-
-
-
-             $orderx = new WC_Order($order_id);
-           //  $billing_email = get_post_meta( $order->id, '_billing_email');
-           //  $billing_phone = get_post_meta( $order->id, '_billing_phone');
-
-
-              $variate_name ="";
-              $product_s = wc_get_product( $xitem['product_id'] );
-               if ($product_s->product_type == 'variable') {
-                   $args = array(
-                       'post_parent' => $plan->ID,
-                       'post_type'   => 'product_variation',
-                       'numberposts' => -1,
-                   );
-                   $variations = $product_s->get_available_variations();
-
-                   $all_variate = array_keys($variations[0]['attributes']);
-                   foreach(  $all_variate as $item){
-                     $temp  =  str_replace('attribute_','',$item);
-                     if(array_key_exists($temp,$xitem)){
-                         $variate_name =  $xitem[$temp];
-                         $product_name  = $xitem['name']." - ".$variate_name;
-                     }
-                   }
-               }else{
-                   $product_name  = $xitem['name'];
-               }
-
-              $qty .= $xitem['item_meta']['_qty'][0]."\n";
-
-              $all_products .= $product_name."\n";
-
-
-
-              $objPHPExcel->setActiveSheetIndex(0)
-              //  ->setCellValue($excel_col[0].$j, substr($orderdata['order_date'],0,10) )
-               ->setCellValue($excel_col[0].$j, substr($order->get_order_number(),1) );
-             //   ->setCellValue($excel_col[1].$j, ' '.$all_products )
-                // ->setCellValue($excel_col[3].$j, ' '.$qty )
-             //   ->setCellValueExplicit($excel_col[2].$j, $qty, PHPExcel_Cell_DataType::TYPE_STRING);
-
-              //  ->setCellValue($excel_col[4].$j, ' '.$price )
-               // ->setCellValue($excel_col[4].$j, $total )
-               // ->setCellValue($excel_col[5].$j, $billing_name)
-               // ->setCellValue($excel_col[6].$j,   $billing_email[0] )
-               // ->setCellValueExplicit($excel_col[7].$j, $billing_phone[0], PHPExcel_Cell_DataType::TYPE_STRING)
-                // ->setCellValue($excel_col[8].$j, $billing_phone[0] )
-              //  ->setCellValue($excel_col[8].$j, $order->get_shipping() )
-               // ->setCellValue($excel_col[9].$j, $order->get_billing_address() )
-               // ->setCellValue($excel_col[10].$j, $orderdata['customer_note'] );
-            $j++;
-          } /*  End  product  */
-
-
-
-          /*
-        $args = array(
-            'post_type' => 'shop_order',
-            'post_status' => 'publish',           
-            'posts_per_page' => '-1',
-        );
-
-
-        $customer_orders = $my_query->posts;
-
-        $i=0;
-        foreach ($customer_orders as $customer_order) {
-
-            
-           
-
-
-
-              $total = $order->get_total();
-
-
-
-          $j =$i+2;
-            $col=$excel_col[0].$i;
-            $objPHPExcel->setActiveSheetIndex(0)
-          //  ->setCellValue($excel_col[0].$j, substr($orderdata['order_date'],0,10) )
-            ->setCellValue($excel_col[0].$j, substr($order->get_order_number(),1) )
-            ->setCellValue($excel_col[1].$j, ' '.$all_products )
-            // ->setCellValue($excel_col[3].$j, ' '.$qty )
-            ->setCellValueExplicit($excel_col[2].$j, $qty, PHPExcel_Cell_DataType::TYPE_STRING)
-
-          //  ->setCellValue($excel_col[4].$j, ' '.$price )
-            ->setCellValue($excel_col[4].$j, $total )
-            ->setCellValue($excel_col[5].$j, $billing_name)
-            ->setCellValue($excel_col[6].$j,   $billing_email[0] )
-            ->setCellValueExplicit($excel_col[7].$j, $billing_phone[0], PHPExcel_Cell_DataType::TYPE_STRING)
-            // ->setCellValue($excel_col[8].$j, $billing_phone[0] )
-           ->setCellValue($excel_col[8].$j, $order->get_shipping() )
-            ->setCellValue($excel_col[9].$j, $order->get_billing_address() )
-            ->setCellValue($excel_col[10].$j, $orderdata['customer_note'] );
-
-
-
-            $i +=1;
-        }
-        */
 
 
 
@@ -297,7 +202,7 @@ function output_forum_xls(){
 
             // Redirect output to a client’s web browser (Excel2007)
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            header('Content-Disposition: attachment;filename="erp匯入.xlsx"');
+            header('Content-Disposition: attachment;filename="erp_order.xlsx"');
             header('Cache-Control: max-age=0');
             // If you're serving to IE 9, then the following may be needed
             header('Cache-Control: max-age=1');

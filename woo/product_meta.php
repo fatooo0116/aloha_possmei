@@ -13,6 +13,8 @@ function woocommerce_product_custom_fields()
     //  echo $sql;
     //  print_r($results);
 
+    
+
     global $woocommerce, $post;
     echo '<div class="product_custom_field">';
     // Custom Product Text Field
@@ -61,6 +63,19 @@ function woocommerce_product_custom_fields()
             'value' => $results[0]['gross_weight']
         )
     );
+
+    woocommerce_wp_text_input(
+        array(
+            'id' => 'meta_meant',           
+            'label' => __('長寬', 'woocommerce'),
+            'desc_tip' => 'true',
+            'value' => $results[0]['meant']
+        )
+    );
+
+
+    
+    
     echo '</div>';
 
     ?>
@@ -109,6 +124,14 @@ function woocommerce_product_custom_fields_save($post_id)
     if (!empty($meta_gross_weight)){
         $update_obj['gross_weight'] = $meta_gross_weight;
     }
+
+
+    $meta_meant = $_POST['meta_meant'];
+    if (!empty($meta_meant)){
+        $update_obj['meant'] = $meta_meant;
+    }
+
+
 
    global $wpdb, $post;
    $table_name =  $wpdb->prefix . 'product';;

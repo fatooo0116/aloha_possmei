@@ -7,6 +7,9 @@
     padding:0px;
 }
 
+.all_cat_product{
+    cursor:pointer;
+}
 
 #main_poss_body2{
     display: flex;
@@ -18,7 +21,7 @@
     flex-wrap: wrap;
 }
 
-.woocommerce-result-count{ display:none; }
+// .woocommerce-result-count{ display:none; }
 .woocommerce-ordering{ display:none; }
 
 .ast-woocommerce-container > .woocommerce-breadcrumb{ display:none; }

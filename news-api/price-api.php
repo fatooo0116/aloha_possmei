@@ -31,8 +31,13 @@ function price_upload_handler($data){
   $output = array();
   $success = array();
   $error = array();
+  $error_msg = array();
+
+  $test = array();
 
   global $wpdb;
+
+
 
   for ($row = 2; $row <= $highestRow; $row++  ){
       $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
@@ -44,51 +49,53 @@ function price_upload_handler($data){
 
       /*  get woo_pid */
       $ptable_name = $wpdb->prefix . 'product';;
-      $sql = "SELECT * FROM $ptable_name WHERE product_id='".$product_id."'";
+      $sql = "SELECT * FROM $ptable_name WHERE product_id='".trim($product_id)."'";
       $obj = $wpdb->get_results($sql);
       $woopid = $obj[0]->woo_id;
       $pid = $obj[0]->id; /*  pid  是 table id */
 
 
       $ctable_name = $wpdb->prefix . 'customer_info';;
-      $sql = "SELECT * FROM $ctable_name WHERE customer_id='".$customer_id."'";
+      $sql = "SELECT * FROM $ctable_name WHERE customer_id='".trim($customer_id)."'";
       $obj2 = $wpdb->get_results($sql);
       $woocid = $obj2[0]->woo_id;
       $cid = $obj2[0]->id; /*  pid  是 table id */
 
-     
+      
+   // print_r($obj);
+
+    // $test[] = $cid." => ".$pid;
 
      
-      if($woopid & $woocid){      
-          if($cid & $pid){
+      if($woopid>0 & $woocid>0){      
+          if($cid>0 & $pid>0){
 
             $table_name =  $wpdb->prefix . 'cprice';;
             $sql = "SELECT count(*) FROM $table_name WHERE product_id=".$pid." AND customer_id=".$cid;
             $count = $wpdb->get_var($sql);
             if($count>0){
             
-            $result =   $wpdb->update(
-                            $table_name,
-                            array(
-                              'price' => $price,  
-                              'woo_pid'=>$woopid,
-                              'woo_cid'=>$woocid,                     
-                            ), 
-                            array(
-                              'product_id'=> $pid,
-                              'customer_id'=> $cid,
-                            ));
-      
+              $result =  $wpdb->update(
+                              $table_name,
+                              array(
+                                'price' => $price,  
+                                'woo_pid'=>$woopid,
+                                'woo_cid'=>$woocid,                     
+                              ), 
+                              array(
+                                'product_id'=> $pid,
+                                'customer_id'=> $cid,
+                              ));
             }else{
               
-                $data =  array(
-                'product_id'=> $pid,
-                'price' => $price,      
-                'customer_id'=> $cid,
-                'woo_pid'=>$woopid,
-                'woo_cid'=>$woocid,
-              );     
-              $result = $wpdb->insert($table_name,$data);
+                    $data =  array(
+                    'product_id'=> $pid,
+                    'price' => $price,      
+                    'customer_id'=> $cid,
+                    'woo_pid'=>$woopid,
+                    'woo_cid'=>$woocid,
+                  );     
+                  $result = $wpdb->insert($table_name,$data);
             }   
             
 
@@ -98,22 +105,31 @@ function price_upload_handler($data){
               'pname' => $pname,
               'customer_id' => $customer_id,
               'price' => $price,          
-              '$woopid' => $woopid,   
-              '$woocid'=>$woocid,      
+              'woopid' => $woopid,   
+              'woocid'=>$woocid,   
+              '$count'=>$count   
             ); 
           }else{
 
+
+            $error_msg = '';
+            $error_msg = $pid.'='.$product_id.'=>'.$woopid; 
+
             $error[] =  array(
-              'status' => 0, 
+              'status' => 2, 
               'product_id' => $product_id,
               'pname' => $pname,
               'customer_id' => $customer_id,
               'price' => $price,          
-              '$woopid' => $woopid,   
-              '$woocid'=>$woocid,      
+              'woopid' => $woopid,   
+              'woocid'=>$woocid, 
+              'msg'=> $error_msg    
             ); 
           }
       }else{
+
+        $error_msg = $pid.'='.$product_id.'=>'.$woopid; 
+
           $error[] =  array(
             'status' => 0, 
             'product_id' => $product_id,
@@ -121,16 +137,21 @@ function price_upload_handler($data){
             'customer_id' => $customer_id,
             'price' => $price,          
             '$woopid' => $woopid,   
-            '$woocid'=>$woocid,      
+            '$woocid'=>$woocid,  
+            'msg'=> $error_msg    
           ); 
-      }
-  
+      }  
   }
 
 
+  // return $test;
+
+
+
   $output  = array(
+         
                 'success' => $success,
-                'error' => $error
+                'error' => $error,
               );
   
    return json_encode($output);

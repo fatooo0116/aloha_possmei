@@ -45,12 +45,14 @@ require 'news-api/product-api.php';
 require 'news-api/product-type-api.php';
 require 'news-api/staff-api.php';
 require 'news-api/price-api.php';
-require 'news-api/product_api.php';
+// require 'news-api/product_api.php';
 require 'news-api/cart.php';
 require 'news-api/category.php';
 require 'news-api/product-ajax-api.php';
 require 'news-api/mass-upload.php';
 
+/*  v2 restful */
+require 'news-api/ajax_api.php';
 
 
 /*  product_metabox  */
@@ -71,8 +73,15 @@ require 'woo/product_metabox_erp.php';
 
 require 'woo/add_tax.php';
 
+require 'woo/order_send_sales.php';
+
+
+
 /* export order to excel */
 require 'export_excel/export_order.php';
+
+/*  polylang */
+require 'polylang_ext/currency.php';
 
 
 /*

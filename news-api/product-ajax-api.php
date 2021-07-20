@@ -246,12 +246,12 @@ function sort_products_ajax_handler($data){
 add_action( 'rest_api_init', function () {
   register_rest_route( 'cargo/v1', '/search_products_ajax', array(
     'methods' => 'POST',
-    'callback' => 'search_products_ajax_handler',
+    'callback' => 'search_products_fe_ajax_handler',
   ) );
 });
 
 
-function search_products_ajax_handler(){
+function search_products_fe_ajax_handler(){
   
 
   $page = (isset($data['page'])) ? $data['page'] : 0; 
@@ -345,3 +345,238 @@ function product_fix_price_handler(){
   return $out; 
 }
 
+
+
+
+
+
+
+
+
+
+
+/* Product Clone  */
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/product_clone', array(
+    'methods' => 'POST',
+    'callback' => 'product_clone_handler',
+  ) );
+});
+
+function product_clone_handler($data){  
+  global $wpdb;
+  $table_name =  $wpdb->prefix . 'product';;
+  $pid = (isset($data['pid'])) ? $data['pid'] : 0; 
+
+
+  $sql = "SELECT * FROM $table_name WHERE id=".$pid['id'];
+  $results = $wpdb->get_results($sql,ARRAY_A);
+
+  $product_cat = get_the_terms($results[0]['woo_id'],'product_cat');
+
+
+
+
+
+  // return $product_cat;
+
+  $in_data = array(
+    'product_id' => '複製-'.$results[0]['product_id'],
+    'product_name' => '複製-'.$results[0]['product_name'],
+    'invoice_name' => $results[0]['invoice_name'],
+    'product_eng_name' => $results[0]['product_eng_name'],
+    'money_type' => $results[0]['money_type'],
+    'unit_sn' => $results[0]['unit_sn'],
+    'unit_sn_cht' => $results[0]['unit_sn_cht'],
+    'out_pack' => $results[0]['out_pack'],
+    'out_pack_unit' => $results[0]['out_pack_unit'],
+    'in_pack' => $results[0]['in_pack'],
+    'in_pack_unit' => $results[0]['in_pack_unit'],
+    'cuft' => $results[0]['cuft'],
+    'net_weight' => $results[0]['net_weight'],
+    'gross_weight' => $results[0]['gross_weight'],
+    'weight_unit' => $results[0]['weight_unit'],
+    'meant' => $results[0]['meant'],
+  );
+
+
+    $result = $wpdb->insert($table_name ,$in_data );
+    $new_id = $wpdb->insert_id;
+
+    if($new_id){
+
+          //  create woo product  [start] 
+          $post_id = wp_insert_post( array( 
+            'post_title' => $results[0]['product_name'].'-copy', 
+            'post_type' => 'product',
+            'post_status' => 'publish'
+          ));         
+          wp_set_object_terms( $post_id, 'simple', 'product_type' );        
+          update_post_meta( $post_id, '_regular_price', '8888' );
+
+          if($post_id){    
+            // global $wpdb;
+            $table_name =  $wpdb->prefix . 'product';;
+            $updated = $wpdb->update( $table_name,
+                    array('woo_id' => $post_id), 
+                    array('id' => $new_id));      
+                    
+
+              //  update image 
+              $copy_attached = get_post_thumbnail_id($results[0]['woo_id']);
+              if(get_post_thumbnail_id($results[0]['woo_id'])){
+                set_post_thumbnail( $post_id, $copy_attached );
+              }
+
+
+              if($product_cat){
+                $temp_arr = array();
+                foreach($product_cat as $xcat){
+                  $temp_arr[] = ($xcat->name);                  
+                } 
+                wp_set_object_terms( $post_id, $temp_arr,'product_cat');              
+              }
+          }  
+
+        //  create woo product  [end] 
+    }
+    
+
+
+
+    if($result){
+      return $new_id;
+    }else{
+      return 0;
+    }    
+
+}
+
+
+
+
+/*  後台 類別找產品 */
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cargo/v1', '/get_products_by_cat', array(
+    'methods' => 'POST',
+    'callback' => 'get_productsbk_by_cat_handler',
+  ) );
+});
+function get_productsbk_by_cat_handler($data){
+  $cat = (isset($data['cat'])) ? $data['cat'] : 0; 
+  $cur_page = (isset($data['cur_page'])) ? $data['cur_page'] : 0; 
+  $post_per_page = (isset($data['post_per_page'])) ? $data['post_per_page'] : 50; 
+
+
+  //$cur_user = (isset($data['cur_user'])) ? $data['cur_user'] : 0;
+
+  /*  is_has_customer_id  */
+  $post_in = array();
+  $post_price = array();
+
+ // print_r($post_in);
+  
+
+
+  $args_all = array(
+    'posts_per_page' => -1,
+    // 'paged' => ($cur_page+1),     
+    'tax_query' => array(
+        // 'relation' => 'AND',
+        array(
+            'taxonomy' => 'product_cat',
+            'field' => 'id',
+            'terms' => $cat 
+        )
+    ),
+    'post_type' => 'product',
+    'orderby' => 'title',
+);
+
+
+$the_query_all = new WP_Query( $args_all );
+
+
+
+    $args = array(
+      'posts_per_page' => $post_per_page,
+      'paged' => ($cur_page),            
+      'tax_query' => array(
+          // 'relation' => 'AND',
+          array(
+              'taxonomy' => 'product_cat',
+              'field' => 'id',
+              'terms' => $cat 
+          )
+      ),
+      'post_type' => 'product',
+      'orderby' => 'title',
+  );
+
+  $the_query = new WP_Query( $args );
+  
+
+
+  $out = array();
+
+  // The Loop
+  if ( $the_query->have_posts() ) {
+    
+    while ( $the_query->have_posts() ) {
+        $the_query->the_post();
+        // echo '<li>' . get_the_title() . '</li>';
+
+
+        $pd = get_product_meta(get_the_ID());
+
+
+        $pd[0]['img'] = get_the_post_thumbnail_url(get_the_ID(),'full');
+        $pd[0]['woo_link'] = get_the_permalink(get_the_ID());
+
+        
+
+        
+        
+          // $results[$key]['img'] = get_the_post_thumbnail_url($item['woo_id'],'full');
+    
+            
+            if(FALSE === get_post_status( get_the_ID())){
+                $results[$key]['woo_id'] = 0;
+            }else{
+              $cat = get_the_terms(get_the_ID(),'product_cat');   
+              
+              $text = array();
+              if($cat){
+                foreach($cat as $ct){
+                  $text[]= $ct->name;
+                }
+                }
+                $pd[0]['cat'] = implode(' > ',$text);
+              }
+          
+          
+          $out[] =  $pd[0];
+                          
+    }
+    
+  }else {
+    // no posts found
+  }    
+  wp_reset_postdata();   
+
+
+
+  $output = array(
+    'results' => $out,
+    'count' => $the_query_all->post_count
+  );
+
+
+  if(!empty($out)){  
+    return $output;
+   // return  $page.' '.$post_per_page ;
+   // return $sql;
+  }else{
+    return 0;
+  } 
+}

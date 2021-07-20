@@ -108,32 +108,67 @@ class printClass {
         
         $order = new WC_Order($post->ID);
         $j = 2;
-        foreach ( $order->get_items() as $item_id => $item ) {
-            $qty = $item->get_quantity();
-            echo $qty;
-        }
 
+        
+
+        $line_items_fee = $order->get_items('fee');    
+        // echo count($line_items_fee);
+
+       
 
 
             ?>
                
                 <input type="hidden" name="download_erp" value="0" class="button" id="export_download" />
                 <input type="hidden" name="download_oid" value="<?php echo get_the_ID(); ?>" />                
-                <button type="submit" id="export_to_excel" class="btn">匯出訂單到ERP</button>
-         
+                <button type="button" id="export_to_excel" class="btn">匯出訂單到ERP</button>
+
+                <?php  if(count($line_items_fee)>0){ ?>
+                    <button type="button" id="export_to_excel_tax" class="btn">匯出訂單到ERP(訂購憑單)</button>
+                <?php } ?>
+                <style>
+                    #export_to_excel{ display:block;margin-bottom:5px; }
+                </style>
                 <script>
                     (function($){
                         $(document).ready(function(){
+
+
+                            $("#export_to_excel_tax").on("click",function(e){
+                                $("#export_download").val(2);
+                                e.preventDefault();
+                                // $("#export_form").submit();
+                               // $("#export_download").remove();
+
+                               /*
+                               setTimeout(() => {
+                                window.location = window.location.href;
+                               }, 1000);
+                               */
+                              $('button[type="submit"]').trigger('click');
+                              setTimeout(() => {
+                                $("#export_download").val(0);     
+                              }, 100);
+                             
+                            });
                             
 
                             $("#export_to_excel").on("click",function(e){
                                 $("#export_download").val(1);
-                               // e.preventDefault();
+                                e.preventDefault();
                                 // $("#export_form").submit();
                                // $("#export_download").remove();
+
+                               /*
                                setTimeout(() => {
                                 window.location = window.location.href;
                                }, 1000);
+                               */
+                              $('button[type="submit"]').trigger('click');
+                              setTimeout(() => {
+                                $("#export_download").val(0);     
+                              }, 100);
+                             
                             });
                             
                         });

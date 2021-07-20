@@ -77,7 +77,7 @@
        let jc =  $.confirm({
           title: '',
           backgroundDismiss: function(){
-              alert("xxx");
+           //   alert("xxx");
           },
           content: '<div class="btn-wrapper"><svg class="icon-loader-check" x="0px" y="0px" width="471.197px" height="471.197px" viewBox="0 0 510 510" overflow="inherit" preserveAspectRatio="xMidYMid meet"><g id="loader"><circle class="circle" fill="transparent" stroke="#41BD59" stroke-width="48" stroke-linecap="round" stroke-miterlimit="10" cx="250" cy="250" r="212.599"/><polyline class="check" fill="none" stroke="#41BD59" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" points="227.599,322.099 290.599,259.099 180.599,149.099 "/></g></svg><h3>已加入購物車</h3></div>',
 
